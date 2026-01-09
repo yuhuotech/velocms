@@ -2,7 +2,8 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { users } from '@/db/drizzle/schema'
-import { eq, or } from 'drizzle-orm'
+import { db } from '@/db/client' // 💡 使用统一的 db 客户端
+import { eq } from 'drizzle-orm'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 
@@ -11,38 +12,25 @@ const loginSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
-function getDb() {
-  if (!global.__sqliteDb) {
-    const Database = require('better-sqlite3')
-    const { drizzle } = require('drizzle-orm/better-sqlite3')
-    const sqlite = new Database('./data/velocms.db')
-    global.__sqliteDb = drizzle(sqlite)
+// 💡 改进：适配器也需要延迟初始化，或者使用 Mock
+const getAdapter = () => {
+  try {
+    // 如果是构建阶段，返回一个哑适配器
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      return undefined
+    }
+    return db.getAdapter()
+  } catch (e) {
+    return undefined
   }
-  return global.__sqliteDb
-}
-
-// Declare global for lazy database initialization
-declare global {
-  var __sqliteDb: ReturnType<typeof import('drizzle-orm/better-sqlite3').drizzle> | undefined
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(getDb() as any),
+  // @ts-ignore
+  adapter: DrizzleAdapter(db.getAdapter()),
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-  cookies: {
-    sessionToken: {
-      name: 'next-auth.session-token',
-      options: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 30, // 30 days
-      },
-    },
   },
   pages: {
     signIn: '/login',
@@ -58,23 +46,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         try {
           const { username, password } = loginSchema.parse(credentials)
-          const db = getDb()
-          if (!db) {
-            return null
-          }
+          
+          // 💡 确保数据库已初始化
+          await db.initialize()
+          const adapter = db.getAdapter()
 
           // Support login with username
-          const user = await db
+          const userResults = await adapter
             .select()
             .from(users)
             .where(eq(users.username, username))
-            .get()
+            .limit(1)
 
-          if (!user) {
-            return null
-          }
+          const user = userResults[0]
 
-          if (!user.passwordHash) {
+          if (!user || !user.passwordHash) {
             return null
           }
 
