@@ -9,5 +9,3 @@ CREATE TABLE `menus` (
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL
 );
---> statement-breakpoint
-ALTER TABLE `pages` DROP COLUMN `order`;

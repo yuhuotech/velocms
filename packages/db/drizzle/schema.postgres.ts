@@ -199,6 +199,7 @@ export const pages = pgTable('pages', {
   status: text('status').notNull().default('published'),
   metaTitle: text('meta_title'),
   metaDescription: text('meta_description'),
+  order: integer('order').default(0),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

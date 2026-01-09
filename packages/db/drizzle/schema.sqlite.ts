@@ -201,6 +201,7 @@ export const pages = sqliteTable('pages', {
   status: text('status').notNull().default('published'), // 'published' | 'draft'
   metaTitle: text('meta_title'),
   metaDescription: text('meta_description'),
+  order: integer('order').default(0),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$default(() => new Date()),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$default(() => new Date()),
 })

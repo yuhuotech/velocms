@@ -4,9 +4,16 @@
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1767926752691,
+      "version": "7",
+      "when": 1767926272248,
       "tag": "0000_silky_nekra",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1767970169519,
+      "tag": "0001_pink_rockslide",
       "breakpoints": true
     }
   ]
