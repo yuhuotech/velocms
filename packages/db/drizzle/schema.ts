@@ -2,7 +2,17 @@ import * as sqliteSchema from './schema.sqlite'
 import * as pgSchema from './schema.postgres'
 import * as mysqlSchema from './schema.mysql'
 
-const isPostgres = process.env.DATABASE_TYPE === 'vercel' || process.env.DATABASE_TYPE === 'postgres'
+// 💡 改进检测逻辑：只要有 POSTGRES_URL 或者是 vercel 环境，就默认为 postgres
+// 这能防止在 Vercel 构建阶段因为 DATABASE_TYPE 未能及时读取而崩溃
+const getIsPostgres = () => {
+  if (process.env.POSTGRES_URL) return true
+  if (process.env.DATABASE_TYPE === 'vercel' || process.env.DATABASE_TYPE === 'postgres') return true
+  // 如果在 Vercel 构建机上，强制设为 postgres
+  if (process.env.VERCEL) return true
+  return false
+}
+
+const isPostgres = getIsPostgres()
 const isMysql = process.env.DATABASE_TYPE === 'mysql'
 
 export const users = isMysql ? mysqlSchema.users : (isPostgres ? pgSchema.users : sqliteSchema.users)
