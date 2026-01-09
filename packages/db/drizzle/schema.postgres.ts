@@ -199,7 +199,18 @@ export const pages = pgTable('pages', {
   status: text('status').notNull().default('published'),
   metaTitle: text('meta_title'),
   metaDescription: text('meta_description'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+})
+
+export const menus = pgTable('menus', {
+  id: serial('id').primaryKey(),
+  label: text('label').notNull(),
+  url: text('url').notNull(),
   order: integer('order').default(0),
+  parentId: integer('parent_id'),
+  target: text('target').default('_self'),
+  isActive: boolean('is_active').default(true),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

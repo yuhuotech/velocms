@@ -60,6 +60,7 @@
     },
     "categories": "分类管理",
     "themes": "主题管理",
+    "menus": "菜单管理",
     "settings": "设置",
     "viewSite": "查看博客首页",
     "logout": "退出登录",

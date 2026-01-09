@@ -107,13 +107,19 @@ export default function AdminLayout({
       icon: FolderKanban,
       href: '/admin/categories',
     },
-    {
-      title: dict.admin.themes.title,
-      icon: Palette,
-      href: '/admin/themes',
-    },
-    {
-      title: dict.admin.settings, // Still a string in dictionary? No, settings was also updated but not admin.settings. Let me check.
+        {
+          title: dict.admin.themes.title,
+          icon: Palette,
+          href: '/admin/themes',
+        },
+        {
+          title: dict.admin.menus || 'Menus',
+          icon: Menu,
+          href: '/admin/menus',
+        },
+        {
+          title: dict.admin.settings,
+     // Still a string in dictionary? No, settings was also updated but not admin.settings. Let me check.
       // Wait, checking zh-CN.json:
       // "admin": { "settings": "设置" } -> This is correct.
       // "settings": { "title": "网站设置" } -> This is the settings page title.

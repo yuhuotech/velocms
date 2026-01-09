@@ -7,58 +7,11 @@ import type { Dictionary } from '@/lib/i18n'
 
 interface PostsClientProps {
   dict: Dictionary
+  initialPosts: any[]
 }
 
-// 示例文章数据
-const posts = [
-  {
-    id: 1,
-    title: 'Next.js 15 App Router 完全指南',
-    slug: 'nextjs-15-app-router-guide',
-    status: 'published',
-    author: 'Admin',
-    date: '2024-01-15',
-    views: 1245,
-  },
-  {
-    id: 2,
-    title: 'TypeScript 高级类型技巧',
-    slug: 'typescript-advanced-types',
-    status: 'published',
-    author: 'Admin',
-    date: '2024-01-10',
-    views: 892,
-  },
-  {
-    id: 3,
-    title: '使用 Tailwind CSS 构建现代网站',
-    slug: 'tailwind-css-modern-websites',
-    status: 'published',
-    author: 'Admin',
-    date: '2024-01-05',
-    views: 654,
-  },
-  {
-    id: 4,
-    title: 'React Server Components 深度解析',
-    slug: 'react-server-components',
-    status: 'published',
-    author: 'Admin',
-    date: '2023-12-28',
-    views: 1523,
-  },
-  {
-    id: 5,
-    title: 'Vite vs Webpack：构建工具对比',
-    slug: 'vite-vs-webpack',
-    status: 'draft',
-    author: 'Admin',
-    date: '2023-12-20',
-    views: 0,
-  },
-]
-
-export default function PostsClient({ dict }: PostsClientProps) {
+export default function PostsClient({ dict, initialPosts }: PostsClientProps) {
+  const [posts, setPosts] = useState(initialPosts)
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [selectedPosts, setSelectedPosts] = useState<number[]>([])
@@ -225,9 +178,9 @@ export default function PostsClient({ dict }: PostsClientProps) {
                       {post.status === 'published' ? dict.common.status.published : dict.common.status.draft}
                     </span>
                   </td>
-                  <td className="px-4 py-2">{post.author}</td>
-                  <td className="px-4 py-2">{post.date}</td>
-                  <td className="px-4 py-2">{post.views}</td>
+                  <td className="px-4 py-2">{post.author || 'Admin'}</td>
+                  <td className="px-4 py-2">{new Date(post.createdAt).toLocaleDateString()}</td>
+                  <td className="px-4 py-2">{post.viewCount || 0}</td>
                   <td className="px-4 py-2">
                     <div className="flex items-center gap-1">
                       <Link

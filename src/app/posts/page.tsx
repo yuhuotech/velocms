@@ -4,18 +4,21 @@ import PostCard from '@/components/post-card'
 import Sidebar from '@/components/sidebar'
 import { getSettings, getDictionary } from '@/lib/i18n'
 
+import { postRepository, tagRepository } from '@/db/repositories'
+import { db } from '@/db/client'
+
 // Fetch posts
 async function getPosts() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'}/api/posts`,
-    { cache: 'no-store' }
-  )
+  await db.initialize()
+  const posts = await postRepository.findAll({ status: 'published' })
+  const recentPosts = await postRepository.getRecent(5)
+  const popularTags = await tagRepository.getPopular(10)
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch posts')
+  return {
+    posts: posts || [],
+    recentPosts: recentPosts || [],
+    popularTags: popularTags || [],
   }
-
-  return res.json()
 }
 
 export default async function PostsPage() {

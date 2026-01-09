@@ -4,24 +4,14 @@ import Sidebar from '@/components/sidebar'
 import Link from 'next/link'
 import { Tag as TagIcon } from 'lucide-react'
 import { getSettings, getDictionary } from '@/lib/i18n'
-
-// Tag data (Mock)
-const tags = [
-  { name: 'Next.js', slug: 'nextjs', count: 15 },
-  { name: 'React', slug: 'react', count: 12 },
-  { name: 'TypeScript', slug: 'typescript', count: 8 },
-  { name: 'Tailwind CSS', slug: 'tailwindcss', count: 6 },
-  { name: 'CSS', slug: 'css', count: 5 },
-  { name: '前端开发', slug: 'frontend', count: 20 },
-  { name: 'Server Components', slug: 'server-components', count: 4 },
-  { name: 'Vite', slug: 'vite', count: 3 },
-  { name: 'Webpack', slug: 'webpack', count: 2 },
-  { name: '构建工具', slug: 'build-tools', count: 5 },
-]
+import { tagRepository } from '@/db/repositories'
+import { db } from '@/db/client'
 
 export default async function TagsPage() {
+  await db.initialize()
   const settings = await getSettings()
   const dict = await getDictionary(settings.language)
+  const tags = await tagRepository.findAll()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,7 +23,7 @@ export default async function TagsPage() {
           <div className="container mx-auto px-4 py-12">
             <h1 className="text-4xl font-bold mb-4">{dict.tags.title}</h1>
             <p className="text-lg text-muted-foreground">
-              {dict.tags.count.replace('{count}', tags.length.toString())}
+              {dict.tags.count.replace('{count}', (tags?.length || 0).toString())}
             </p>
           </div>
         </section>
@@ -43,30 +33,36 @@ export default async function TagsPage() {
           <div className="grid lg:grid-cols-4 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-3">
-              <div className="grid md:grid-cols-2 gap-4">
-                {tags.map((tag) => (
-                  <Link
-                    key={tag.slug}
-                    href={`/tags/${tag.slug}`}
-                    className="group border border-border rounded-lg p-6 hover:border-primary transition-all duration-300"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <h2 className="text-xl font-semibold mb-2 group-hover:text-primary transition">
-                          <TagIcon className="inline-block w-5 h-5 mr-2" />
-                          {tag.name}
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                          {dict.tags.postCount.replace('{count}', tag.count.toString())}
-                        </p>
+              {(!tags || tags.length === 0) ? (
+                <div className="text-center py-12 border border-border rounded-lg">
+                  <p className="text-muted-foreground">{dict.tags.empty}</p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 gap-4">
+                  {tags.map((tag) => (
+                    <Link
+                      key={tag.slug}
+                      href={`/tags/${tag.slug}`}
+                      className="group border border-border rounded-lg p-6 hover:border-primary transition-all duration-300"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1">
+                          <h2 className="text-xl font-semibold mb-2 group-hover:text-primary transition">
+                            <TagIcon className="inline-block w-5 h-5 mr-2" />
+                            {tag.name}
+                          </h2>
+                          <p className="text-sm text-muted-foreground">
+                            {dict.tags.postCount.replace('{count}', (tag.count || 0).toString())}
+                          </p>
+                        </div>
+                        <div className="px-3 py-1 bg-muted rounded-full text-sm">
+                          {tag.count || 0}
+                        </div>
                       </div>
-                      <div className="px-3 py-1 bg-muted rounded-full text-sm">
-                        {tag.count}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -74,7 +70,7 @@ export default async function TagsPage() {
               <div className="border border-border rounded-lg p-4 space-y-4">
                 <h3 className="text-sm font-semibold">{dict.sidebar.popularTags}</h3>
                 <div className="flex flex-wrap gap-2">
-                  {tags.slice(0, 6).map((tag) => (
+                  {tags?.slice(0, 10).map((tag) => (
                     <Link
                       key={tag.slug}
                       href={`/tags/${tag.slug}`}
@@ -84,6 +80,9 @@ export default async function TagsPage() {
                       {tag.name}
                     </Link>
                   ))}
+                  {(!tags || tags.length === 0) && (
+                    <p className="text-xs text-muted-foreground">暂无标签</p>
+                  )}
                 </div>
               </div>
             </div>

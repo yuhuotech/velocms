@@ -201,8 +201,20 @@ export const pages = sqliteTable('pages', {
   status: text('status').notNull().default('published'), // 'published' | 'draft'
   metaTitle: text('meta_title'),
   metaDescription: text('meta_description'),
-  order: integer('order').default(0), // For menu sorting
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$default(() => new Date()),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$default(() => new Date()),
 })
+
+export const menus = sqliteTable('menus', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  label: text('label').notNull(),
+  url: text('url').notNull(),
+  order: integer('order').default(0),
+  parentId: integer('parent_id'),
+  target: text('target').default('_self'), // '_self' | '_blank'
+  isActive: integer('is_active', { mode: 'boolean' }).default(true),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$default(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$default(() => new Date()),
+})
+
 

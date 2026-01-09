@@ -203,3 +203,15 @@ export const pages = mysqlTable('pages', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow(),
 })
+
+export const menus = mysqlTable('menus', {
+  id: serial('id').primaryKey(),
+  label: varchar('label', { length: 255 }).notNull(),
+  url: text('url').notNull(),
+  order: int('order').default(0),
+  parentId: int('parent_id'),
+  target: varchar('target', { length: 50 }).default('_self'),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow(),
+})

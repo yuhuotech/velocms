@@ -31,3 +31,4 @@ export const captchas = isMysql ? mysqlSchema.captchas : (isPostgres ? pgSchema.
 export const files = isMysql ? mysqlSchema.files : (isPostgres ? pgSchema.files : sqliteSchema.files)
 export const settings = isMysql ? mysqlSchema.settings : (isPostgres ? pgSchema.settings : sqliteSchema.settings)
 export const pages = isMysql ? mysqlSchema.pages : (isPostgres ? pgSchema.pages : sqliteSchema.pages)
+export const menus = isMysql ? mysqlSchema.menus : (isPostgres ? pgSchema.menus : sqliteSchema.menus)
