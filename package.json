@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "bash scripts/start-dev.sh",
     "dev:simple": "next dev -p 3002",
-    "build": "npm run db:push && npx tsx scripts/init-db.ts && next build",
+    "build": "npx drizzle-kit push --force && npx tsx scripts/init-db.ts && next build",
     "start": "next start -p 3002",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
