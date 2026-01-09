@@ -1,7 +1,5 @@
-import { drizzle } from 'drizzle-orm/better-sqlite3'
 import { drizzle as drizzlePg } from 'drizzle-orm/postgres-js'
 import { drizzle as drizzleMysql } from 'drizzle-orm/mysql2'
-import Database from 'better-sqlite3'
 import postgres from 'postgres'
 import mysql from 'mysql2/promise'
 import * as schema from './drizzle/schema'
@@ -17,7 +15,6 @@ const dbUrl = process.env.DATABASE_URL
 
 // 兼容 Vercel Postgres / MySQL
 let _db: any = null
-let _connection: Database.Database | ReturnType<typeof postgres> | mysql.Connection | null = null
 
 class DatabaseClient {
   private connection: any = null
@@ -44,7 +41,9 @@ class DatabaseClient {
         _db = drizzleMysql(this.connection, { schema, mode: 'default' })
         console.log(`[Database] Connected to MySQL`)
       } else {
-        // 🟡 使用 SQLite (默认)
+        // 🟡 使用 SQLite (仅用于本地)
+        const { drizzle } = await import('drizzle-orm/better-sqlite3')
+        const Database = (await import('better-sqlite3')).default
         this.connection = new Database(dbPath)
         _db = drizzle(this.connection, { schema })
         console.log(`[Database] Connected to SQLite at ${dbPath}`)

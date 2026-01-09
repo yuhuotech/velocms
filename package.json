@@ -17,6 +17,9 @@
     "test": "vitest",
     "test:coverage": "vitest --coverage"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.1",
     "@tiptap/extension-image": "^3.15.3",
