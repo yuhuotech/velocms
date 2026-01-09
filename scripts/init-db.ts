@@ -32,6 +32,7 @@ async function main() {
 
       // --- 初始化数据 ---
       await seedData(db);
+      console.log('✅ 数据预置完成。');
       await migrationClient.end();
     } else {
       // --- SQLite 自动迁移 ---
