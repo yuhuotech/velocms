@@ -24,10 +24,8 @@ const nextConfig = {
   output: process.env.VERCEL ? 'standalone' : undefined,
 
   // 确保 themes 目录被包含在 Vercel 部署中
-  experimental: {
-    outputFileTracingIncludes: {
-      '/**': ['./themes/**/*'],
-    },
+  outputFileTracingIncludes: {
+    '/**': ['./themes/**/*'],
   },
 
   // 环境变量
