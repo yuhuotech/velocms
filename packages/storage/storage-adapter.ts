@@ -78,10 +78,15 @@ export class LocalFileSystemStorage implements StorageAdapter {
 
 // Vercel Blob 存储
 export class VercelBlobStorage implements StorageAdapter {
+  private get token(): string | undefined {
+    return process.env.VELOCMS_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN
+  }
+
   async upload(file: File, userId?: number): Promise<UploadedFile> {
     const filename = this.generateFilename(file.name)
     const blob = await put(filename, file, {
       access: 'public',
+      token: this.token,
     })
 
     return {
@@ -97,7 +102,9 @@ export class VercelBlobStorage implements StorageAdapter {
 
   async delete(storagePath: string): Promise<void> {
     try {
-      await del(storagePath)
+      await del(storagePath, {
+        token: this.token,
+      })
     } catch (error) {
       console.error('Failed to delete blob:', error)
     }
