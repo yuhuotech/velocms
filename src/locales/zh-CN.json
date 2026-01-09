@@ -1,0 +1,332 @@
+{
+  "common": {
+    "save": "保存设置",
+    "saving": "保存中...",
+    "success": "保存成功",
+    "error": "保存失败",
+    "required": "必填",
+    "viewAll": "查看全部",
+    "search": "搜索...",
+    "actions": "操作",
+    "edit": "编辑",
+    "delete": "删除",
+    "preview": "预览",
+    "confirmDelete": "确定要删除吗？",
+    "batchDelete": "批量删除",
+    "selectAll": "全选",
+    "itemsSelected": "已选择 {count} 项",
+    "status": {
+      "published": "已发布",
+      "draft": "草稿",
+      "all": "全部状态",
+      "scheduled": "定时发布"
+    },
+    "pagination": {
+      "showing": "显示 {start}-{end} 共 {total} 条"
+    },
+    "create": "创建",
+    "update": "更新",
+    "cancel": "取消",
+    "loading": "加载中...",
+    "back": "返回",
+    "upload": "上传"
+  },
+  "auth": {
+    "loginTitle": "后台管理登录",
+    "username": "用户名",
+    "password": "密码",
+    "login": "登录",
+    "loggingIn": "登录中...",
+    "backToHome": "返回博客首页",
+    "adminOnly": "请使用管理员账号登录",
+    "error": {
+      "credentials": "用户名或密码错误，请重试",
+      "general": "登录失败，请稍后重试"
+    },
+    "placeholders": {
+      "username": "请输入用户名",
+      "password": "请输入密码"
+    }
+  },
+  "admin": {
+    "dashboard": "仪表盘",
+    "posts": "文章管理",
+    "comments": "评论管理",
+    "tags": "标签管理",
+    "pages": {
+      "title": "页面管理",
+      "new": "新建页面",
+      "edit": "编辑页面"
+    },
+    "categories": "分类管理",
+    "themes": "主题管理",
+    "settings": "设置",
+    "viewSite": "查看博客首页",
+    "logout": "退出登录",
+    "theme": "切换主题",
+    "welcomeBack": "欢迎回来，{name}",
+    "stats": {
+      "totalPosts": "文章总数",
+      "totalTags": "标签数量",
+      "totalCategories": "分类数量",
+      "totalUsers": "用户数量"
+    },
+    "recentPosts": "最近文章",
+    "quickActions": {
+      "title": "快速操作",
+      "newPost": "写新文章",
+      "newPostDesc": "创建一篇新的博客文章",
+      "manageTags": "管理标签",
+      "manageTagsDesc": "添加、编辑或删除标签",
+      "manageCategories": "管理分类",
+      "manageCategoriesDesc": "组织内容分类",
+      "siteSettings": "网站设置",
+      "siteSettingsDesc": "配置网站基本信息"
+    },
+    "postList": {
+      "title": "文章管理",
+      "newPost": "新建文章",
+      "table": {
+        "title": "文章标题",
+        "status": "状态",
+        "author": "作者",
+        "date": "日期",
+        "views": "浏览",
+        "actions": "操作"
+      },
+      "deleteConfirm": "确定要删除这篇文章吗？",
+      "batchDeleteConfirm": "确定要删除选中的 {count} 篇文章吗？",
+      "empty": "没有找到匹配的文章"
+    },
+    "categories": {
+      "title": "分类管理",
+      "new": "新建分类",
+      "edit": "编辑分类",
+      "deleteConfirm": "确定要删除这个分类吗？分类下的文章将变为未分类。",
+      "empty": "没有找到匹配的分类",
+      "fields": {
+        "name": "分类名称",
+        "slug": "分类 Slug",
+        "description": "描述",
+        "count": "文章数",
+        "createdAt": "创建时间"
+      },
+      "placeholders": {
+        "name": "例如：技术",
+        "slug": "例如：tech",
+        "description": "分类描述..."
+      }
+    },
+    "tags": {
+      "title": "标签管理",
+      "new": "新建标签",
+      "edit": "编辑标签",
+      "deleteConfirm": "确定要删除这个标签吗？",
+      "empty": "没有找到匹配的标签",
+      "fields": {
+        "name": "标签名称",
+        "slug": "标签 Slug",
+        "description": "描述",
+        "count": "文章数",
+        "createdAt": "创建时间"
+      },
+      "placeholders": {
+        "name": "例如：Next.js",
+        "slug": "例如：nextjs",
+        "description": "标签描述..."
+      }
+    },
+    "themes": {
+      "title": "主题管理",
+      "subtitle": "管理网站的主题和外观设置",
+      "installed": "已安装的主题",
+      "empty": "没有安装任何主题",
+      "emptyHint": "请在 themes 目录下添加主题文件夹"
+    },
+    "comments": {
+      "title": "评论管理",
+      "subtitle": "管理网站评论，审核、回复和删除评论",
+      "stats": {
+        "all": "全部",
+        "pending": "待审核",
+        "approved": "已通过",
+        "rejected": "已拒绝"
+      },
+      "actions": {
+        "approve": "通过",
+        "reject": "拒绝",
+        "reply": "回复",
+        "delete": "删除",
+        "batchApprove": "批量通过",
+        "batchReject": "批量拒绝",
+        "batchDelete": "批量删除"
+      },
+      "confirm": {
+        "delete": "确定要删除这条评论吗？",
+        "batch": "确定要批量{action} {count} 条评论吗？"
+      },
+      "replyModal": {
+        "title": "回复评论",
+        "placeholder": "输入回复内容...",
+        "submit": "提交回复",
+        "submitting": "提交中..."
+      },
+      "empty": "暂无评论"
+    },
+    "editor": {
+      "new": "撰写新文章",
+      "edit": "编辑文章",
+      "saveDraft": "存草稿",
+      "publish": "发布",
+      "saving": "保存中...",
+      "ready": "准备就绪",
+      "published": "文章已发布",
+      "saved": "草稿已保存",
+      "back": "返回列表",
+      "titlePlaceholder": "请输入文章标题...",
+      "contentPlaceholder": "开始讲述你的故事...",
+      "excerpt": "文章摘要",
+      "excerptPlaceholder": "编写一段简短的摘要，将用于 SEO 和文章列表预览...",
+      "settings": "发布设置",
+      "category": "分类",
+      "uncategorized": "未分类",
+      "tags": "标签",
+      "tagsPlaceholder": "输入标签回车...",
+      "status": "状态",
+      "coverImage": "封面图片",
+      "clickToUpload": "点击上传封面",
+      "imageUrlPlaceholder": "或输入图片链接..."
+    }
+  },
+  "settings": {
+    "title": "网站设置",
+    "subtitle": "配置网站基本信息和功能",
+    "general": "通用设置",
+    "author": "作者信息",
+    "seo": "SEO 设置",
+    "social": "社交媒体",
+    "security": "安全设置",
+    "fields": {
+      "siteName": "网站名称",
+      "siteDescription": "网站描述",
+      "siteUrl": "网站地址",
+      "language": "网站语言",
+      "authorName": "作者姓名",
+      "authorEmail": "作者邮箱",
+      "authorBio": "个人简介",
+      "metaTitle": "Meta 标题",
+      "metaDescription": "Meta 描述",
+      "metaKeywords": "Meta 关键词",
+      "twitterHandle": "Twitter 用户名",
+      "githubHandle": "GitHub 用户名",
+      "emailNotifications": "邮件通知",
+      "commentNotifications": "评论通知"
+    },
+    "placeholders": {
+      "keywords": "关键词1, 关键词2, 关键词3"
+    },
+    "hints": {
+      "metaTitle": "建议长度：50-60 个字符",
+      "metaDescription": "建议长度：150-160 个字符",
+      "emailNotifications": "接收网站更新和重要通知",
+      "commentNotifications": "有新评论时发送通知"
+    }
+  },
+  "nav": {
+    "home": "首页",
+    "posts": "文章",
+    "tags": "标签",
+    "about": "关于",
+    "search": "搜索",
+    "theme": {
+      "light": "浅色",
+      "dark": "深色",
+      "system": "跟随系统"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "欢迎来到我的博客",
+      "subtitle": "分享技术文章、学习心得和项目经验",
+      "stats": {
+        "posts": "{count} 篇文章",
+        "tags": "{count} 个标签"
+      }
+    },
+    "empty": "还没有文章，敬请期待！",
+    "pagination": {
+      "prev": "上一页",
+      "next": "下一页"
+    }
+  },
+  "posts": {
+    "title": "全部文章",
+    "count": "共 {count} 篇文章",
+    "empty": "还没有文章，敬请期待！",
+    "pagination": {
+      "prev": "上一页",
+      "next": "下一页"
+    },
+    "back": "返回首页",
+    "readTime": "{time} 分钟阅读",
+    "share": "分享",
+    "shareTo": "分享到："
+  },
+  "tags": {
+    "title": "标签",
+    "count": "共 {count} 个标签",
+    "postCount": "{count} 篇文章",
+    "back": "返回标签列表",
+    "empty": "该标签下暂无文章"
+  },
+  "about": {
+    "title": "关于我",
+    "contact": "联系方式"
+  },
+  "sidebar": {
+    "recentPosts": "最新文章",
+    "popularTags": "热门标签",
+    "about": {
+      "title": "关于本站",
+      "description": "欢迎来到我的博客！这里主要分享技术文章、学习心得和项目经验。"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} {name}. 保留所有权利。",
+    "poweredBy": "Powered by VeloCMS"
+  },
+  "comments": {
+    "title": "评论",
+    "reply": "回复",
+    "replyTo": "回复给 {name}：",
+    "cancel": "取消",
+    "submit": "提交评论",
+    "submitting": "提交中...",
+    "success": {
+      "title": "评论已提交",
+      "message": "感谢您的评论！评论需要经过审核后才会显示。",
+      "continue": "继续评论"
+    },
+    "fields": {
+      "nickname": "昵称 *",
+      "email": "邮箱（可选）",
+      "content": "评论内容 *",
+      "captcha": "验证码 *"
+    },
+    "placeholders": {
+      "nickname": "您的昵称",
+      "email": "用于接收回复通知",
+      "content": "写下您的评论...",
+      "captcha": "请输入6位验证码"
+    },
+    "errors": {
+      "nickname": "请输入昵称",
+      "content": "请输入评论内容",
+      "captcha": "验证码错误",
+      "network": "网络错误，请重试",
+      "load": "加载评论失败"
+    },
+    "empty": "暂无评论，快来抢沙发吧！",
+    "postComment": "发表评论"
+  }
+}

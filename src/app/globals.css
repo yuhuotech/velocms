@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* 自定义 prose 样式 - 调整字体大小 */
+@layer components {
+  .prose {
+    @apply text-base;
+  }
+
+  .prose h1 {
+    @apply text-2xl;
+  }
+
+  .prose h2 {
+    @apply text-xl;
+  }
+
+  .prose h3 {
+    @apply text-lg;
+  }
+
+  .prose h4 {
+    @apply text-base;
+  }
+
+  .prose p {
+    @apply text-base leading-relaxed;
+  }
+
+  .prose ul,
+  .prose ol {
+    @apply text-base;
+  }
+
+  .prose li {
+    @apply text-base;
+  }
+
+  .prose blockquote {
+    @apply text-base;
+  }
+
+  .prose code {
+    @apply text-sm;
+  }
+
+  .prose pre {
+    @apply text-sm;
+  }
+
+  .prose a {
+    @apply text-base;
+  }
+}
+
+/* Code block styles */
+.code-block-wrapper {
+  @apply relative my-6 rounded-lg overflow-hidden border border-border bg-[#0d1117];
+}
+
+.code-block-header {
+  @apply flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-border;
+}
+
+.code-block-language {
+  @apply text-xs font-medium text-gray-400 uppercase;
+}
+
+.code-block-copy-btn {
+  @apply flex items-center gap-1.5 px-2 py-1 text-xs rounded transition-all duration-200 bg-[#21262d] text-gray-400 hover:text-white hover:bg-[#30363d];
+}
+
+.code-block-copy-btn.copied {
+  @apply bg-green-500/20 text-green-400;
+}
+
+.code-block-content {
+  @apply p-4 overflow-x-auto text-sm;
+}
+
+.code-block-content pre {
+  @apply m-0 p-0 bg-transparent;
+}
+
+.code-block-content code {
+  @apply font-mono text-sm leading-6;
+}
+
+/* Highlight.js theme overrides for better compatibility */
+.hljs {
+  @apply bg-transparent !important;
+  @apply p-0 !important;
+  @apply m-0 !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  @apply text-[#ff7b72];
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  @apply text-[#a5d6ff];
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  @apply text-[#8b949e];
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-title,
+.hljs-section,
+.hljs-type,
+.hljs-selector-id {
+  @apply font-semibold;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  @apply text-[#79c0ff];
+}
+
+.hljs-number,
+.hljs-regexp {
+  @apply text-[#79c0ff];
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attr {
+  @apply text-[#79c0ff];
+}
+
+.hljs-function {
+  @apply text-[#d2a8ff];
+}

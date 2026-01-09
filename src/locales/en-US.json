@@ -1,0 +1,332 @@
+{
+  "common": {
+    "save": "Save Settings",
+    "saving": "Saving...",
+    "success": "Settings saved successfully",
+    "error": "Failed to save settings",
+    "required": "Required",
+    "viewAll": "View All",
+    "search": "Search...",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "preview": "Preview",
+    "confirmDelete": "Are you sure you want to delete?",
+    "batchDelete": "Batch Delete",
+    "selectAll": "Select All",
+    "itemsSelected": "{count} items selected",
+    "status": {
+      "published": "Published",
+      "draft": "Draft",
+      "all": "All Status",
+      "scheduled": "Scheduled"
+    },
+    "pagination": {
+      "showing": "Showing {start}-{end} of {total}"
+    },
+    "create": "Create",
+    "update": "Update",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "back": "Back",
+    "upload": "Upload"
+  },
+  "auth": {
+    "loginTitle": "Admin Login",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "loggingIn": "Logging in...",
+    "backToHome": "Back to Home",
+    "adminOnly": "Admin access only",
+    "error": {
+      "credentials": "Invalid username or password",
+      "general": "Login failed, please try again"
+    },
+    "placeholders": {
+      "username": "Enter username",
+      "password": "Enter password"
+    }
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "posts": "Posts",
+    "comments": "Comments",
+    "tags": "Tags",
+    "pages": {
+      "title": "Pages",
+      "new": "New Page",
+      "edit": "Edit Page"
+    },
+    "categories": "Categories",
+    "themes": "Themes",
+    "settings": "Settings",
+    "viewSite": "View Site",
+    "logout": "Logout",
+    "theme": "Toggle Theme",
+    "welcomeBack": "Welcome back, {name}",
+    "stats": {
+      "totalPosts": "Total Posts",
+      "totalTags": "Total Tags",
+      "totalCategories": "Total Categories",
+      "totalUsers": "Total Users"
+    },
+    "recentPosts": "Recent Posts",
+    "quickActions": {
+      "title": "Quick Actions",
+      "newPost": "New Post",
+      "newPostDesc": "Create a new blog post",
+      "manageTags": "Manage Tags",
+      "manageTagsDesc": "Add, edit or delete tags",
+      "manageCategories": "Manage Categories",
+      "manageCategoriesDesc": "Organize content categories",
+      "siteSettings": "Site Settings",
+      "siteSettingsDesc": "Configure basic site information"
+    },
+    "postList": {
+      "title": "Post Management",
+      "newPost": "New Post",
+      "table": {
+        "title": "Title",
+        "status": "Status",
+        "author": "Author",
+        "date": "Date",
+        "views": "Views",
+        "actions": "Actions"
+      },
+      "deleteConfirm": "Are you sure you want to delete this post?",
+      "batchDeleteConfirm": "Are you sure you want to delete {count} posts?",
+      "empty": "No posts found"
+    },
+    "categories": {
+      "title": "Category Management",
+      "new": "New Category",
+      "edit": "Edit Category",
+      "deleteConfirm": "Are you sure you want to delete this category? Posts in it will become uncategorized.",
+      "empty": "No categories found",
+      "fields": {
+        "name": "Category Name",
+        "slug": "Category Slug",
+        "description": "Description",
+        "count": "Posts",
+        "createdAt": "Created At"
+      },
+      "placeholders": {
+        "name": "e.g. Tech",
+        "slug": "e.g. tech",
+        "description": "Category description..."
+      }
+    },
+    "tags": {
+      "title": "Tag Management",
+      "new": "New Tag",
+      "edit": "Edit Tag",
+      "deleteConfirm": "Are you sure you want to delete this tag?",
+      "empty": "No tags found",
+      "fields": {
+        "name": "Tag Name",
+        "slug": "Tag Slug",
+        "description": "Description",
+        "count": "Posts",
+        "createdAt": "Created At"
+      },
+      "placeholders": {
+        "name": "e.g. Next.js",
+        "slug": "e.g. nextjs",
+        "description": "Tag description..."
+      }
+    },
+    "themes": {
+      "title": "Theme Management",
+      "subtitle": "Manage site themes and appearance",
+      "installed": "Installed Themes",
+      "empty": "No themes installed",
+      "emptyHint": "Please add theme folders to the themes directory"
+    },
+    "comments": {
+      "title": "Comment Management",
+      "subtitle": "Manage site comments, approve, reply and delete",
+      "stats": {
+        "all": "All",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "actions": {
+        "approve": "Approve",
+        "reject": "Reject",
+        "reply": "Reply",
+        "delete": "Delete",
+        "batchApprove": "Batch Approve",
+        "batchReject": "Batch Reject",
+        "batchDelete": "Batch Delete"
+      },
+      "confirm": {
+        "delete": "Are you sure you want to delete this comment?",
+        "batch": "Are you sure you want to batch {action} {count} comments?"
+      },
+      "replyModal": {
+        "title": "Reply to Comment",
+        "placeholder": "Enter reply content...",
+        "submit": "Submit Reply",
+        "submitting": "Submitting..."
+      },
+      "empty": "No comments found"
+    },
+    "editor": {
+      "new": "New Post",
+      "edit": "Edit Post",
+      "saveDraft": "Save Draft",
+      "publish": "Publish",
+      "saving": "Saving...",
+      "ready": "Ready",
+      "published": "Post Published",
+      "saved": "Draft Saved",
+      "back": "Back to List",
+      "titlePlaceholder": "Enter post title...",
+      "contentPlaceholder": "Start telling your story...",
+      "excerpt": "Excerpt",
+      "excerptPlaceholder": "Write a short excerpt for SEO and post previews...",
+      "settings": "Publish Settings",
+      "category": "Category",
+      "uncategorized": "Uncategorized",
+      "tags": "Tags",
+      "tagsPlaceholder": "Enter tag and press Enter...",
+      "status": "Status",
+      "coverImage": "Cover Image",
+      "clickToUpload": "Click to upload cover",
+      "imageUrlPlaceholder": "Or enter image URL..."
+    }
+  },
+  "settings": {
+    "title": "Site Settings",
+    "subtitle": "Configure basic site information and features",
+    "general": "General",
+    "author": "Author Info",
+    "seo": "SEO",
+    "social": "Social Media",
+    "security": "Security",
+    "fields": {
+      "siteName": "Site Name",
+      "siteDescription": "Site Description",
+      "siteUrl": "Site URL",
+      "language": "Language",
+      "authorName": "Author Name",
+      "authorEmail": "Author Email",
+      "authorBio": "Author Bio",
+      "metaTitle": "Meta Title",
+      "metaDescription": "Meta Description",
+      "metaKeywords": "Meta Keywords",
+      "twitterHandle": "Twitter Handle",
+      "githubHandle": "GitHub Handle",
+      "emailNotifications": "Email Notifications",
+      "commentNotifications": "Comment Notifications"
+    },
+    "placeholders": {
+      "keywords": "keyword1, keyword2, keyword3"
+    },
+    "hints": {
+      "metaTitle": "Recommended length: 50-60 characters",
+      "metaDescription": "Recommended length: 150-160 characters",
+      "emailNotifications": "Receive site updates and important notifications",
+      "commentNotifications": "Get notified when new comments are posted"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "posts": "Posts",
+    "tags": "Tags",
+    "about": "About",
+    "search": "Search",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to My Blog",
+      "subtitle": "Sharing tech articles, learnings and project experiences",
+      "stats": {
+        "posts": "{count} posts",
+        "tags": "{count} tags"
+      }
+    },
+    "empty": "No posts yet, stay tuned!",
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next"
+    }
+  },
+  "posts": {
+    "title": "All Posts",
+    "count": "Total {count} posts",
+    "empty": "No posts yet, stay tuned!",
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "back": "Back to Home",
+    "readTime": "{time} min read",
+    "share": "Share",
+    "shareTo": "Share to:"
+  },
+  "tags": {
+    "title": "Tags",
+    "count": "Total {count} tags",
+    "postCount": "{count} posts",
+    "back": "Back to Tags",
+    "empty": "No posts found for this tag"
+  },
+  "about": {
+    "title": "About Me",
+    "contact": "Contact"
+  },
+  "sidebar": {
+    "recentPosts": "Recent Posts",
+    "popularTags": "Popular Tags",
+    "about": {
+      "title": "About This Site",
+      "description": "Welcome to my blog! Here I share technical articles, learnings and project experiences."
+    }
+  },
+  "footer": {
+    "copyright": "© {year} {name}. All rights reserved.",
+    "poweredBy": "Powered by VeloCMS"
+  },
+  "comments": {
+    "title": "Comments",
+    "reply": "Reply",
+    "replyTo": "Reply to {name}:",
+    "cancel": "Cancel",
+    "submit": "Submit Comment",
+    "submitting": "Submitting...",
+    "success": {
+      "title": "Comment Submitted",
+      "message": "Thank you for your comment! It will be shown after approval.",
+      "continue": "Continue"
+    },
+    "fields": {
+      "nickname": "Nickname *",
+      "email": "Email (Optional)",
+      "content": "Comment *",
+      "captcha": "Captcha *"
+    },
+    "placeholders": {
+      "nickname": "Your nickname",
+      "email": "For reply notifications",
+      "content": "Write your comment...",
+      "captcha": "6 digits"
+    },
+    "errors": {
+      "nickname": "Please enter nickname",
+      "content": "Please enter comment",
+      "captcha": "Invalid captcha",
+      "network": "Network error",
+      "load": "Failed to load comments"
+    },
+    "empty": "No comments yet, be the first!",
+    "postComment": "Leave a Comment"
+  }
+}

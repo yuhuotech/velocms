@@ -1,0 +1,27 @@
+{
+  "name": "@velocms/theme-system",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "import": "./index.ts",
+      "types": "./index.ts"
+    },
+    "./types": {
+      "import": "./types.ts",
+      "types": "./types.ts"
+    },
+    "./registry": {
+      "import": "./registry.ts",
+      "types": "./registry.ts"
+    },
+    "./config": {
+      "import": "./config.ts",
+      "types": "./config.ts"
+    },
+    "./loader": {
+      "import": "./loader.ts",
+      "types": "./loader.ts"
+    }
+  },
+  "types": "index.ts"
+}

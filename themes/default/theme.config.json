@@ -1,0 +1,111 @@
+{
+  "name": "default",
+  "version": "1.0.0",
+  "author": {
+    "name": "VeloCMS",
+    "email": "hello@velocms.dev"
+  },
+  "license": "MIT",
+  "description": "Default theme for VeloCMS with full dark mode support",
+  "keywords": ["blog", "clean", "minimal", "responsive", "dark-mode"],
+  "minVeloCMSVersion": "1.0.0",
+
+  "config": {
+    "colors": {
+      "primary": "#0070f3",
+      "secondary": "#7928ca",
+      "accent": "#ff0080",
+      "background": "#ffffff",
+      "surface": "#f8f9fa",
+      "text": "#1a1a1a",
+      "text-secondary": "#666666",
+      "border": "#e5e7eb",
+      "success": "#10b981",
+      "warning": "#f59e0b",
+      "error": "#ef4444"
+    },
+    "darkColors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "accent": "#f472b6",
+      "background": "#0f172a",
+      "surface": "#1e293b",
+      "text": "#e2e8f0",
+      "text-secondary": "#94a3b8",
+      "border": "#334155",
+      "success": "#34d399",
+      "warning": "#fbbf24",
+      "error": "#f87171"
+    },
+    "fonts": {
+      "heading": {
+        "family": "Inter",
+        "weight": [400, 600, 700]
+      },
+      "body": {
+        "family": "Inter",
+        "weight": [400, 500]
+      },
+      "code": {
+        "family": "JetBrains Mono"
+      }
+    },
+    "layout": {
+      "maxWidth": "1200px",
+      "sidebar": true,
+      "sidebarPosition": "right"
+    },
+    "features": {
+      "darkMode": true,
+      "readingProgress": true,
+      "tableOfContents": true
+    }
+  },
+
+  "templates": {
+    "layout": "templates/layout.vt",
+    "home": "templates/home.vt",
+    "post": "templates/post.vt",
+    "page": "templates/page.vt",
+    "archive": "templates/archive.vt",
+    "tag": "templates/tag.vt",
+    "404": "templates/404.vt"
+  },
+
+  "assets": {
+    "css": ["assets/css/main.css"],
+    "js": ["assets/js/theme.js"]
+  },
+
+  "settings": [
+    {
+      "key": "showSidebar",
+      "type": "boolean",
+      "default": true,
+      "label": "Show Sidebar",
+      "category": "Layout"
+    },
+    {
+      "key": "sidebarPosition",
+      "type": "select",
+      "default": "right",
+      "label": "Sidebar Position",
+      "options": ["left", "right"],
+      "category": "Layout"
+    },
+    {
+      "key": "primaryColor",
+      "type": "color",
+      "default": "#0070f3",
+      "label": "Primary Color (Light)",
+      "category": "Colors"
+    },
+    {
+      "key": "darkPrimaryColor",
+      "type": "color",
+      "default": "#3b82f6",
+      "label": "Primary Color (Dark)",
+      "category": "Colors"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+CREATE INDEX `captcha_expires_idx` ON `captchas` (`expires_at`);

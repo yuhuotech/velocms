@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@/theme-system/*": [
+        "./packages/theme-system/*"
+      ],
+      "@/template-lang/*": [
+        "./packages/template-lang/*"
+      ],
+      "@/db/*": [
+        "./packages/db/*"
+      ],
+      "@/storage/*": [
+        "./packages/storage/*"
+      ],
+      "@velocms/storage/*": [
+        "./packages/storage/*"
+      ],
+      "@/core/*": [
+        "./packages/core/*"
+      ]
+    },
+    "target": "ES2017"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "packages/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

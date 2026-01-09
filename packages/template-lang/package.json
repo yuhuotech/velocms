@@ -1,0 +1,11 @@
+{
+  "name": "@velocms/template-lang",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "import": "./index.ts",
+      "types": "./index.ts"
+    }
+  },
+  "types": "index.ts"
+}

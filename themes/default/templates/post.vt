@@ -1,0 +1,18 @@
+<vt:extends src="layout.vt">
+  <vt:block name="content">
+    <article class="post">
+      <header>
+        <h1>{{ post.title }}</h1>
+        <time>{{ post.publishedAt | date }}</time>
+        <div class="tags">
+          <vt:each item="tag" in="post.tags">
+            <a href="/tags/{{ tag.slug }}" class="tag">{{ tag.name }}</a>
+          </vt:each>
+        </div>
+      </header>
+      <div class="content">
+        {{ post.content }}
+      </div>
+    </article>
+  </vt:block>
+</vt:extends>

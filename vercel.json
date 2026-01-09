@@ -1,0 +1,51 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["hkg1", "sfo1", "nrt1"],
+  "env": {
+    "DATABASE_URL": "@velocms-database-url",
+    "KV_REST_API_URL": "@velocms-kv-url",
+    "KV_REST_API_TOKEN": "@velocms-kv-token",
+    "AUTH_SECRET": "@velocms-auth-secret",
+    "NEXT_PUBLIC_SITE_URL": "@velocms-site-url"
+  },
+  "functions": {
+    "app/**/api/**": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "/admin/dashboard",
+      "permanent": false
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/crons/cleanup",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
