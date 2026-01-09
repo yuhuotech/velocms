@@ -60,7 +60,7 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
-            {menus.map((menu) => (
+            {menus.map((menu: any) => (
               <Link
                 key={menu.id}
                 href={menu.url}
@@ -128,7 +128,7 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
         {isOpen && (
           <div className="md:hidden py-4 border-t border-border">
             <div className="flex flex-col space-y-3">
-              {menus.map((menu) => (
+              {menus.map((menu: any) => (
                 <Link
                   key={menu.id}
                   href={menu.url}

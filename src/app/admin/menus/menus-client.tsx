@@ -53,7 +53,7 @@ export default function MenusClient({ dict, initialMenus }: MenusClientProps) {
     setLoading(true)
     try {
       // For simplicity, we send all items to update order and details
-      const itemsToSave = menus.map((m, index) => ({
+      const itemsToSave = menus.map((m: any, index: number) => ({
         ...m,
         order: index + 1,
         id: m.isNew ? undefined : m.id // Send undefined for new items
@@ -141,7 +141,7 @@ export default function MenusClient({ dict, initialMenus }: MenusClientProps) {
                 </td>
               </tr>
             ) : (
-              menus.map((menu, index) => (
+              menus.map((menu: any, index: number) => (
                 <tr key={menu.id} className="hover:bg-accent/30 group">
                   <td className="px-4 py-2">
                     <div className="flex flex-col">

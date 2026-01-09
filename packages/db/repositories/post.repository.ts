@@ -42,7 +42,7 @@ export const postRepository = {
     // This is not the most efficient way but works for now. 
     // In a real app, we might want to use a join or a more optimized query.
     const postsWithTags = await Promise.all(
-      results.map(async (post) => {
+      results.map(async (post: any) => {
         const postTagsResult = await adapter
           .select({
             id: tags.id,
@@ -156,7 +156,7 @@ export const postRepository = {
     const results = await query
 
     const postsWithTags = await Promise.all(
-      results.map(async (post) => {
+      results.map(async (post: any) => {
         const postTagsResult = await adapter
           .select({
             id: tags.id,
