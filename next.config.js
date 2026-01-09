@@ -23,6 +23,13 @@ const nextConfig = {
   // 输出模式
   output: process.env.VERCEL ? 'standalone' : undefined,
 
+  // 确保 themes 目录被包含在 Vercel 部署中
+  experimental: {
+    outputFileTracingIncludes: {
+      '/**': ['./themes/**/*'],
+    },
+  },
+
   // 环境变量
   env: {
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,

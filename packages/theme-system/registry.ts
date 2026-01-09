@@ -66,7 +66,19 @@ export class ThemeRegistry {
   private themesDir: string
 
   constructor(themesDir?: string) {
-    this.themesDir = themesDir || path.join(process.cwd(), 'themes')
+    if (themesDir) {
+      this.themesDir = themesDir
+    } else {
+      // 💡 Vercel 环境下调整路径检测
+      const root = process.cwd()
+      this.themesDir = path.join(root, 'themes')
+      
+      // 如果根目录找不到，尝试在当前文件的上层找
+      // 这在 Vercel Standalone 模式下很有用
+      if (process.env.VERCEL) {
+        console.log(`[ThemeRegistry] CWD: ${root}`)
+      }
+    }
   }
 
   async registerTheme(themePath: string): Promise<Theme> {

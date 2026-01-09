@@ -6,7 +6,13 @@ import { getSettings, getDictionary } from '@/lib/i18n'
 
 // Fetch posts
 async function getPosts() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'}/api/posts`, {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL 
+    ? process.env.NEXT_PUBLIC_SITE_URL 
+    : process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : 'http://localhost:3002';
+
+  const res = await fetch(`${baseUrl}/api/posts`, {
     cache: 'no-store',
   })
 
