@@ -25,9 +25,12 @@ const getAdapter = () => {
   }
 }
 
+// 💡 改进：在构建阶段不导出 adapter，防止 Auth.js 尝试验证数据库连接
+const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build';
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // @ts-ignore
-  adapter: DrizzleAdapter(db.getAdapter()),
+  adapter: isBuildPhase ? undefined : DrizzleAdapter(db.getAdapter()),
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
