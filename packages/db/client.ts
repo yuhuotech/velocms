@@ -1,21 +1,23 @@
 import { drizzle } from 'drizzle-orm/better-sqlite3'
 import { drizzle as drizzlePg } from 'drizzle-orm/postgres-js'
+import { drizzle as drizzleMysql } from 'drizzle-orm/mysql2'
 import Database from 'better-sqlite3'
 import postgres from 'postgres'
+import mysql from 'mysql2/promise'
 import * as schema from './drizzle/schema'
 
-// 数据库类型：'sqlite' | 'postgres' | 'vercel'
+// 数据库类型：'sqlite' | 'postgres' | 'vercel' | 'mysql'
 const dbType = process.env.DATABASE_TYPE || 'sqlite'
 
 // SQLite 配置
 const dbPath = process.env.DATABASE_PATH || './data/velocms.db'
 
-// Postgres 配置
-const pgUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL
+// Postgres/MySQL 配置
+const dbUrl = process.env.DATABASE_URL
 
-// 兼容 Vercel Postgres
+// 兼容 Vercel Postgres / MySQL
 let _db: any = null
-let _connection: Database.Database | ReturnType<typeof postgres> | null = null
+let _connection: Database.Database | ReturnType<typeof postgres> | mysql.Connection | null = null
 
 class DatabaseClient {
   private connection: any = null
@@ -26,13 +28,21 @@ class DatabaseClient {
     try {
       if (dbType === 'postgres' || dbType === 'vercel') {
         // 🟢 使用 Postgres
-        if (!pgUrl) {
+        if (!dbUrl && !process.env.POSTGRES_URL) {
           throw new Error('POSTGRES_URL or DATABASE_URL is required for Postgres')
         }
-
-        this.connection = postgres(pgUrl, { max: 1 })
+        const url = dbUrl || process.env.POSTGRES_URL
+        this.connection = postgres(url!, { max: 1 })
         _db = drizzlePg(this.connection, { schema })
         console.log(`[Database] Connected to Postgres (${dbType})`)
+      } else if (dbType === 'mysql') {
+        // 🔵 使用 MySQL
+        if (!dbUrl) {
+          throw new Error('DATABASE_URL is required for MySQL')
+        }
+        this.connection = await mysql.createConnection(dbUrl)
+        _db = drizzleMysql(this.connection, { schema, mode: 'default' })
+        console.log(`[Database] Connected to MySQL`)
       } else {
         // 🟡 使用 SQLite (默认)
         this.connection = new Database(dbPath)
@@ -50,6 +60,8 @@ class DatabaseClient {
 
     try {
       if (dbType === 'postgres' || dbType === 'vercel') {
+        await this.connection.end()
+      } else if (dbType === 'mysql') {
         await this.connection.end()
       } else {
         this.connection.close()
