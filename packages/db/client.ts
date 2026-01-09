@@ -40,10 +40,18 @@ class DatabaseClient {
         this.connection = await mysql.createConnection(dbUrl)
         _db = drizzleMysql(this.connection, { schema, mode: 'default' })
         console.log(`[Database] Connected to MySQL`)
-      } else {
-        // 🟡 使用 SQLite (仅用于本地)
+// 🟡 使用 SQLite (仅用于本地)
+        const fs = await import('fs/promises')
+        const path = await import('path')
         const { drizzle } = await import('drizzle-orm/better-sqlite3')
         const Database = (await import('better-sqlite3')).default
+        
+        // 确保目录存在
+        const dir = path.dirname(dbPath)
+        try {
+          await fs.mkdir(dir, { recursive: true })
+        } catch (e) {}
+
         this.connection = new Database(dbPath)
         _db = drizzle(this.connection, { schema })
         console.log(`[Database] Connected to SQLite at ${dbPath}`)

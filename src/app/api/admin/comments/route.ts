@@ -4,6 +4,8 @@ import { db } from '@/db/client'
 import { commentRepository } from '@/db/repositories'
 import { auth } from '@/auth'
 
+export const dynamic = 'force-dynamic'
+
 const updateStatusSchema = z.object({
   id: z.number().positive(),
   status: z.enum(['pending', 'approved', 'rejected']),
