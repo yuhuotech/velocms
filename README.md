@@ -108,6 +108,46 @@ npm run dev
 
 ---
 
+## ☁️ Vercel 部署指南
+
+VeloCMS 针对 Vercel 环境进行了深度优化，支持一键部署并集成数据库与文件存储。
+
+### 1. 环境变量配置
+
+在 Vercel 项目控制面板的 **Settings -> Environment Variables** 中添加以下变量：
+
+| 变量名 | 必填 | 示例值 | 说明 |
+| :--- | :--- | :--- | :--- |
+| `AUTH_SECRET` | 是 | `任意长随机字符串` | 用于加密认证 Token，建议使用 `openssl rand -base64 32` 生成 |
+| `DATABASE_TYPE` | 是 | `vercel` | 告知应用使用 Vercel Postgres (Neon) |
+| `NEXT_PUBLIC_SITE_URL` | 否 | `https://your-domain.com` | 你的网站正式域名 |
+
+### 2. 存储集成 (Vercel Storage)
+
+为了获得最佳性能，请确保以下组件的 **Region (区域)** 保持一致。本项目默认推荐使用 **Singapore (新加坡) - sin1**。
+
+#### A. 数据库 (Neon / Vercel Postgres)
+- 在 Vercel **Storage** 页签创建 **Postgres**。
+- **自定义前缀**：建议保持默认或填写 `POSTGRES`。
+- **区域**：必须选择 **Singapore (Southeast) - sin1**。
+
+#### B. 文件存储 (Vercel Blob)
+- 在 Vercel **Storage** 页签创建 **Blob**。
+- **自定义前缀**：填写 `VELOCMS`（生成变量名：`VELOCMS_READ_WRITE_TOKEN`）。
+- **区域**：必须选择 **Singapore (Southeast) - sin1**。
+
+### 3. 区域一致性说明
+
+本项目在 `vercel.json` 中已预设部署区域为 `sin1`：
+```json
+{
+  "regions": ["sin1"]
+}
+```
+**请务必确保你的数据库和 Blob 存储也在同一区域，否则可能会因跨区域访问导致明显的响应延迟。**
+
+---
+
 ## 🎨 主题系统 & 模板语言
 
 VeloCMS 的核心在于其强大的主题系统。每个主题都位于 `themes/` 目录下，拥有独立的模板和资产。

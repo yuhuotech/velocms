@@ -33,6 +33,7 @@ const adapterProxy = new Proxy({} as any, {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // @ts-ignore
   adapter: isBuildPhase ? undefined : adapterProxy,
+  secret: process.env.AUTH_SECRET, // 💡 显式指定密钥
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days

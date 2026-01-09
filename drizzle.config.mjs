@@ -1,24 +1,20 @@
+// 💡 改进检测逻辑，适配 Vercel 的环境变量注入
+const getDbType = () => {
+  if (process.env.POSTGRES_URL || (process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('postgres'))) return 'postgresql';
+  if (process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('mysql')) return 'mysql';
+  return 'sqlite';
+}
+
+const dialect = getDbType();
+const dbUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
 export default {
   schema: './packages/db/drizzle/schema.ts',
-  out: process.env.DATABASE_TYPE === 'vercel' || process.env.DATABASE_TYPE === 'postgres'
-    ? './packages/db/drizzle/migrations/postgres'
-    : process.env.DATABASE_TYPE === 'mysql'
-      ? './packages/db/drizzle/migrations/mysql'
-      : './packages/db/drizzle/migrations/sqlite',
-  dialect: process.env.DATABASE_TYPE === 'vercel' || process.env.DATABASE_TYPE === 'postgres'
-    ? 'postgresql'
-    : process.env.DATABASE_TYPE === 'mysql'
-      ? 'mysql'
-      : 'sqlite',
-  ...(process.env.DATABASE_TYPE === 'vercel' || process.env.DATABASE_TYPE === 'postgres' || process.env.DATABASE_TYPE === 'mysql' ? {
-    dbCredentials: {
-      url: process.env.DATABASE_URL,
-    }
-  } : {
-    dbCredentials: {
-      url: process.env.DATABASE_PATH || './data/velocms.db',
-    }
-  }),
+  out: `./packages/db/drizzle/migrations/${dialect}`,
+  dialect: dialect,
+  dbCredentials: {
+    url: dialect === 'sqlite' ? (process.env.DATABASE_PATH || './data/velocms.db') : dbUrl,
+  },
   verbose: true,
   strict: true,
 }
