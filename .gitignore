@@ -52,3 +52,5 @@ temp/
 
 # Debug
 debug.log
+
+.gemini-clipboard/
