@@ -61,26 +61,38 @@ class DatabaseClient {
   }
 
   getAdapter() {
-    if (!_db) {
-      if (process.env.NEXT_PHASE === 'phase-production-build') {
-        // 🚀 创建一个可以无限链式调用的递归 Proxy
-        const createMock = (): any => {
-          const mock: any = new Proxy(() => mock, {
-            get: (target, prop) => {
-              // 模拟异步返回
-              if (prop === 'then') {
-                return (resolve: any) => resolve([])
-              }
-              // 兼容 Drizzle 的一些特殊属性检查
-              if (prop === 'constructor') return Object
-              return createMock()
-            }
-          })
-          return mock
-        }
-        return createMock()
+    // 🚀 构建阶段保护
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      const createMock = (): any => {
+        const mock: any = new Proxy(() => mock, {
+          get: (target, prop) => {
+            if (prop === 'then') return (resolve: any) => resolve([])
+            if (prop === 'constructor') return Object
+            return createMock()
+          }
+        })
+        return mock
       }
-      throw new Error('Database not initialized. Call initialize() first.')
+      return createMock()
+    }
+
+    if (!_db) {
+      // 💡 运行时保护：如果还没初始化就点开了
+      // 返回一个特殊的代理，它在被调用时会报错提示需要 initialize
+      return new Proxy({} as any, {
+        get: (target, prop) => {
+          if (prop === 'then') return undefined
+          // 允许 Auth.js 检查某些属性而不崩溃
+          if (prop === 'constructor') return Object
+          
+          return (...args: any[]) => {
+            if (!_db) {
+              throw new Error(`Database not initialized. Ensure 'await db.initialize()' is called before using '${String(prop)}'`)
+            }
+            return _db[prop](...args)
+          }
+        }
+      })
     }
     return _db
   }

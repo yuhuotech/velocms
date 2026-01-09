@@ -2,7 +2,7 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { users } from '@/db/drizzle/schema'
-import { db } from '@/db/client' // 💡 使用统一的 db 客户端
+import { db } from '@/db/client'
 import { eq } from 'drizzle-orm'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
@@ -12,25 +12,27 @@ const loginSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
-// 💡 改进：适配器也需要延迟初始化，或者使用 Mock
-const getAdapter = () => {
-  try {
-    // 如果是构建阶段，返回一个哑适配器
-    if (process.env.NEXT_PHASE === 'phase-production-build') {
-      return undefined
-    }
-    return db.getAdapter()
-  } catch (e) {
-    return undefined
-  }
-}
-
-// 💡 改进：在构建阶段不导出 adapter，防止 Auth.js 尝试验证数据库连接
 const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build';
+
+// 💡 这是一个特殊的数据库代理，专门给 NextAuth Adapter 使用
+// 它在第一次被调用方法时，会抛出一个异常（如果未初始化），或者我们可以更优雅地处理
+const adapterProxy = new Proxy({} as any, {
+  get: (target, prop) => {
+    // 允许 NextAuth 检查某些基础属性
+    if (prop === 'constructor') return Object
+    if (prop === 'then') return undefined
+    
+    return (...args: any[]) => {
+      // 运行时：如果是调用数据库操作，返回一个能在运行时运行的实例
+      const adapter = DrizzleAdapter(db.getAdapter())
+      return (adapter as any)[prop](...args)
+    }
+  }
+})
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // @ts-ignore
-  adapter: isBuildPhase ? undefined : DrizzleAdapter(db.getAdapter()),
+  adapter: isBuildPhase ? undefined : adapterProxy,
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -50,11 +52,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           const { username, password } = loginSchema.parse(credentials)
           
-          // 💡 确保数据库已初始化
           await db.initialize()
           const adapter = db.getAdapter()
 
-          // Support login with username
           const userResults = await adapter
             .select()
             .from(users)
@@ -95,6 +95,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token
     },
     async session({ session, token }) {
+      // 💡 在 session 回调中强制初始化数据库，确保后续操作有库可用
+      await db.initialize()
       if (session.user) {
         session.user.id = token.id as string
         ;(session.user as any).role = token.role
