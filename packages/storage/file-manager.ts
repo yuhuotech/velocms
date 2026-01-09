@@ -17,6 +17,11 @@ export class FileManager {
   }
 
   private createStorageAdapter(): StorageAdapter {
+    // 🚀 新增：如果是构建阶段，返回一个哑对象或跳过初始化
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      return {} as any
+    }
+
     if (this.env === 'vercel') {
       console.log('[FileManager] Using Vercel Blob storage')
       return new VercelBlobStorage()

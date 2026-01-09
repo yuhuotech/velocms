@@ -21,6 +21,12 @@ class DatabaseClient {
 
   async initialize(): Promise<void> {
     if (this.connection) return
+    
+    // 🚀 新增：如果是构建阶段，跳过初始化
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      console.log('[Database] Skipping initialization during build phase')
+      return
+    }
 
     try {
       if (dbType === 'postgres' || dbType === 'vercel') {
