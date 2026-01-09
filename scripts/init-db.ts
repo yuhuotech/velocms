@@ -26,7 +26,7 @@ async function main() {
       const db = drizzle(migrationClient, { schema });
       
       await migrate(db, { 
-        migrationsFolder: path.join(process.cwd(), 'packages/db/drizzle/migrations/postgresql') 
+        migrationsFolder: path.join(process.cwd(), 'packages/db/drizzle/migrations/postgres') 
       });
       console.log('✅ Postgres 迁移完成。');
 

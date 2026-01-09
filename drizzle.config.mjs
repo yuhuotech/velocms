@@ -6,11 +6,12 @@ const getDbType = () => {
 }
 
 const dialect = getDbType();
+const outDir = dialect === 'postgresql' ? 'postgres' : dialect;
 const dbUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL;
 
 export default {
   schema: './packages/db/drizzle/schema.ts',
-  out: `./packages/db/drizzle/migrations/${dialect}`,
+  out: `./packages/db/drizzle/migrations/${outDir}`,
   dialect: dialect,
   dbCredentials: {
     url: dialect === 'sqlite' ? (process.env.DATABASE_PATH || './data/velocms.db') : dbUrl,
