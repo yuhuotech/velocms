@@ -4,7 +4,7 @@ import postgres from 'postgres'
 import mysql from 'mysql2/promise'
 import * as schema from './drizzle/schema'
 
-// 💡 智能检测数据库类型：优先看 Vercel 的环境变量，其次看显式配置，最后默认 sqlite
+// 💡 智能检测数据库类型
 const getDbType = () => {
   if (process.env.POSTGRES_URL || process.env.DATABASE_URL?.startsWith('postgres')) return 'vercel'
   if (process.env.DATABASE_URL?.startsWith('mysql')) return 'mysql'
@@ -23,7 +23,6 @@ class DatabaseClient {
   async initialize(): Promise<void> {
     if (this.connection || _db) return
     
-    // 🚀 构建阶段保护
     if (process.env.NEXT_PHASE === 'phase-production-build') {
       console.log('[Database] Skip initialization during build phase')
       return
@@ -43,8 +42,6 @@ class DatabaseClient {
         _db = drizzleMysql(this.connection, { schema, mode: 'default' })
         console.log(`[Database] Connected to MySQL`)
       } else {
-        // 🔴 本地 SQLite 逻辑
-        console.log(`[Database] Initializing SQLite`)
         const fs = await import('fs/promises')
         const path = await import('path')
         const { drizzle } = await import('drizzle-orm/better-sqlite3')
@@ -65,17 +62,23 @@ class DatabaseClient {
 
   getAdapter() {
     if (!_db) {
-      // 🚀 如果在构建阶段被调用，返回一个 Mock 代理
       if (process.env.NEXT_PHASE === 'phase-production-build') {
-        return new Proxy({} as any, {
-          get: () => () => ({
-            from: () => ({ where: () => ({ orderBy: () => ({ limit: () => ({ offset: () => [] }) }) }) }),
-            select: () => ({ from: () => ({ where: () => ({ orderBy: () => ({ limit: () => ({ offset: () => [] }) }) }) }) }),
-            insert: () => ({ values: () => ({ returning: () => [] }) }),
-            update: () => ({ set: () => ({ where: () => ({ returning: () => [] }) }) }),
-            delete: () => ({ where: () => ({ returning: () => [] }) }),
+        // 🚀 创建一个可以无限链式调用的递归 Proxy
+        const createMock = (): any => {
+          const mock: any = new Proxy(() => mock, {
+            get: (target, prop) => {
+              // 模拟异步返回
+              if (prop === 'then') {
+                return (resolve: any) => resolve([])
+              }
+              // 兼容 Drizzle 的一些特殊属性检查
+              if (prop === 'constructor') return Object
+              return createMock()
+            }
           })
-        })
+          return mock
+        }
+        return createMock()
       }
       throw new Error('Database not initialized. Call initialize() first.')
     }
