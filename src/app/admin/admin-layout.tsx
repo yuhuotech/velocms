@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   FileText,
@@ -22,7 +22,7 @@ import {
   ChevronDown,
   MessageSquare,
 } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import type { Dictionary } from "@/lib/i18n";
 
@@ -55,7 +55,6 @@ export default function AdminLayout({
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
 
@@ -73,9 +72,12 @@ export default function AdminLayout({
   };
 
   const handleLogout = async () => {
-    await signOut({ redirect: false });
-    router.push("/login");
-    router.refresh();
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const menuItems = [

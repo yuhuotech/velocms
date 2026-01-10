@@ -1,56 +1,60 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Lock, User, AlertCircle, Loader2 } from 'lucide-react'
-import type { Dictionary } from '@/lib/i18n'
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Lock, User, AlertCircle, Loader2 } from "lucide-react";
+import type { Dictionary } from "@/lib/i18n";
 
 interface LoginFormProps {
-  dict: Dictionary
+  dict: Dictionary;
 }
 
 export default function LoginForm({ dict }: LoginFormProps) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/admin'
-  const error = searchParams.get('error')
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/admin";
+  const error = searchParams.get("error");
 
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  })
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(error ? dict.auth.error.credentials : '')
+    username: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(
+    error ? dict.auth.error.credentials : "",
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setErrorMessage('')
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage("");
 
     try {
-      const result = await signIn('credentials', {
+      const result = await signIn("credentials", {
         username: formData.username,
         password: formData.password,
         redirect: false,
-      })
+      });
 
       if (result?.error) {
-        setErrorMessage(dict.auth.error.credentials)
+        setErrorMessage(dict.auth.error.credentials);
       } else {
-        // 登录成功，强制跳转到后台管理页面
-        window.location.href = callbackUrl
+        // 登录成功，等待 cookie 设置后再跳转
+        setTimeout(() => {
+          window.location.href = callbackUrl;
+        }, 100);
       }
     } catch (err) {
-      setErrorMessage(dict.auth.error.general)
+      setErrorMessage(dict.auth.error.general);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <>
@@ -118,5 +122,5 @@ export default function LoginForm({ dict }: LoginFormProps) {
         </button>
       </form>
     </>
-  )
+  );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, Search, Moon, Sun, Monitor, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -60,7 +61,18 @@ export default function NavbarClient({
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">{siteName || "VeloCMS"}</span>
+            <div className="relative w-8 h-8">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+            <span className="text-xl font-bold hidden sm:block">
+              {siteName || "VeloCMS"}
+            </span>
           </Link>
 
           {/* Desktop Menu */}
