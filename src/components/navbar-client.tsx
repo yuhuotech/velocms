@@ -1,53 +1,58 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { Menu, X, Search, Moon, Sun, Monitor, ChevronDown } from 'lucide-react'
-import { useState, useEffect } from 'react'
-import { useTheme } from 'next-themes'
-import type { Dictionary } from '@/lib/i18n'
+import Link from "next/link";
+import { Menu, X, Search, Moon, Sun, Monitor, ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import type { Dictionary } from "@/lib/i18n";
 
-type ThemeMode = 'light' | 'dark' | 'system'
+type ThemeMode = "light" | "dark" | "system";
 
 const themeIcons: Record<ThemeMode, React.ReactNode> = {
   light: <Sun className="w-5 h-5" />,
   dark: <Moon className="w-5 h-5" />,
   system: <Monitor className="w-5 h-5" />,
-}
+};
 
 interface NavbarClientProps {
-  dict: Dictionary
-  menus: any[]
+  dict: Dictionary;
+  menus: any[];
+  siteName?: string;
 }
 
-export default function NavbarClient({ dict, menus }: NavbarClientProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+export default function NavbarClient({
+  dict,
+  menus,
+  siteName,
+}: NavbarClientProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  const currentTheme: ThemeMode = (theme as ThemeMode) || 'system'
+  const currentTheme: ThemeMode = (theme as ThemeMode) || "system";
 
   const themeLabels: Record<ThemeMode, string> = {
     light: dict.nav.theme.light,
     dark: dict.nav.theme.dark,
     system: dict.nav.theme.system,
-  }
+  };
 
   const selectTheme = (newTheme: ThemeMode) => {
-    setTheme(newTheme)
-    setThemeMenuOpen(false)
-  }
+    setTheme(newTheme);
+    setThemeMenuOpen(false);
+  };
 
   const renderThemeIcon = (mode: ThemeMode) => {
     if (!mounted) {
-      return <Sun className="w-5 h-5" />
+      return <Sun className="w-5 h-5" />;
     }
-    return themeIcons[mode]
-  }
+    return themeIcons[mode];
+  };
 
   return (
     <nav className="border-b border-border bg-background">
@@ -55,7 +60,7 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">VeloCMS</span>
+            <span className="text-xl font-bold">{siteName || "VeloCMS"}</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -74,7 +79,10 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
-            <Link href="/search" className="p-2 hover:bg-accent rounded-lg transition">
+            <Link
+              href="/search"
+              className="p-2 hover:bg-accent rounded-lg transition"
+            >
               <Search className="w-5 h-5" />
             </Link>
 
@@ -85,7 +93,9 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
                 className="flex items-center gap-1 p-2 hover:bg-accent rounded-lg transition"
               >
                 {renderThemeIcon(currentTheme)}
-                <ChevronDown className={`w-4 h-4 transition-transform ${themeMenuOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${themeMenuOpen ? "rotate-180" : ""}`}
+                />
               </button>
 
               {themeMenuOpen && (
@@ -100,7 +110,9 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
                         key={mode}
                         onClick={() => selectTheme(mode)}
                         className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition ${
-                          currentTheme === mode ? 'text-primary font-medium' : ''
+                          currentTheme === mode
+                            ? "text-primary font-medium"
+                            : ""
                         }`}
                       >
                         {renderThemeIcon(mode)}
@@ -119,7 +131,11 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
               className="md:hidden p-2 hover:bg-accent rounded-lg transition"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
@@ -144,5 +160,5 @@ export default function NavbarClient({ dict, menus }: NavbarClientProps) {
         )}
       </div>
     </nav>
-  )
+  );
 }

@@ -1,37 +1,70 @@
-import { notFound } from 'next/navigation'
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
-import Sidebar from '@/components/sidebar'
-import Link from 'next/link'
-import { ArrowLeft, Calendar, Clock, Tag, Share2 } from 'lucide-react'
-import { formatDate } from '@/lib/utils'
-import { MarkdownContent } from '@/components/markdown-content'
-import { CommentList } from '@/components/comments'
-import { getSettings, getDictionary } from '@/lib/i18n'
-import { postRepository, tagRepository } from '@/db/repositories'
-import { db } from '@/db/client'
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import Sidebar from "@/components/sidebar";
+import Link from "next/link";
+import { ArrowLeft, Calendar, Clock, Tag, Share2 } from "lucide-react";
+import { formatDate } from "@/lib/utils";
+import { MarkdownContent } from "@/components/markdown-content";
+import { CommentList } from "@/components/comments";
+import { getSettings, getDictionary } from "@/lib/i18n";
+import { postRepository, tagRepository } from "@/db/repositories";
+import { db } from "@/db/client";
+import { generatePageMetadata, truncateText } from "@/lib/seo";
 
 export async function generateStaticParams() {
-  await db.initialize()
-  const posts = await postRepository.findAll({ status: 'published' })
+  await db.initialize();
+  const posts = await postRepository.findAll({ status: "published" });
   return posts.map((post: any) => ({
     slug: post.slug,
-  }))
+  }));
 }
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  await db.initialize()
-  const { slug } = await params
-  
-  const post = await postRepository.findBySlug(slug)
-  const settings = await getSettings()
-  const dict = await getDictionary(settings.language)
-
-  const recentPosts = await postRepository.getRecent(5)
-  const popularTags = await tagRepository.getPopular(10)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  await db.initialize();
+  const { slug } = await params;
+  const post = await postRepository.findBySlug(slug);
 
   if (!post) {
-    notFound()
+    return {
+      title: "文章未找到 - VeloCMS",
+    };
+  }
+
+  const settings = await getSettings();
+  const tagNames = post.tags?.map((t: any) => t.name).join(", ") || "";
+
+  return generatePageMetadata({
+    title: post.title,
+    description: post.excerpt || truncateText(post.content, 160),
+    keywords: tagNames,
+    ogImage: post.coverImage,
+    template: "article",
+  });
+}
+
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  await db.initialize();
+  const { slug } = await params;
+
+  const post = await postRepository.findBySlug(slug);
+  const settings = await getSettings();
+  const dict = await getDictionary(settings.language);
+
+  const recentPosts = await postRepository.getRecent(5);
+  const popularTags = await tagRepository.getPopular(10);
+
+  if (!post) {
+    notFound();
   }
 
   return (
@@ -61,12 +94,19 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                 <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
-                    <span>{formatDate(new Date(post.publishedAt || post.createdAt))}</span>
+                    <span>
+                      {formatDate(new Date(post.publishedAt || post.createdAt))}
+                    </span>
                   </div>
                   {post.readingTime && (
                     <div className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
-                      <span>{dict.posts.readTime.replace('{time}', post.readingTime.toString())}</span>
+                      <span>
+                        {dict.posts.readTime.replace(
+                          "{time}",
+                          post.readingTime.toString(),
+                        )}
+                      </span>
                     </div>
                   )}
                   <div className="flex items-center gap-1">
@@ -105,7 +145,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
               {/* Share Buttons */}
               <div className="mt-12 pt-8 border-t border-border">
-                <p className="text-sm text-muted-foreground mb-4">{dict.posts.shareTo}</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {dict.posts.shareTo}
+                </p>
                 <div className="flex gap-2">
                   <button className="px-4 py-2 bg-[#1DA1F2] text-white rounded-lg text-sm hover:opacity-90 transition">
                     Twitter
@@ -134,7 +176,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </article>
       </main>
 
-      <Footer dict={dict} authorName={settings.authorName || 'Admin'} />
+      <Footer dict={dict} authorName={settings.authorName || "Admin"} />
     </div>
-  )
+  );
 }

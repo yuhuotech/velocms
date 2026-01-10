@@ -1,28 +1,57 @@
-import { notFound } from 'next/navigation'
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
-import Sidebar from '@/components/sidebar'
-import PostCard from '@/components/post-card'
-import { Tag as TagIcon } from 'lucide-react'
-import Link from 'next/link'
-import { getSettings, getDictionary } from '@/lib/i18n'
-import { postRepository, tagRepository } from '@/db/repositories'
-import { db } from '@/db/client'
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import Sidebar from "@/components/sidebar";
+import PostCard from "@/components/post-card";
+import { Tag as TagIcon } from "lucide-react";
+import Link from "next/link";
+import { getSettings, getDictionary } from "@/lib/i18n";
+import { postRepository, tagRepository } from "@/db/repositories";
+import { db } from "@/db/client";
+import { generatePageMetadata } from "@/lib/seo";
 
-export default async function TagPage({ params }: { params: Promise<{ slug: string }> }) {
-  await db.initialize()
-  const { slug } = await params
-  
-  const settings = await getSettings()
-  const dict = await getDictionary(settings.language)
-  
-  const tag = await tagRepository.findBySlug(slug)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  await db.initialize();
+  const { slug } = await params;
+  const tag = await tagRepository.findBySlug(slug);
+
   if (!tag) {
-    notFound()
+    return {
+      title: "标签未找到 - VeloCMS",
+    };
   }
 
-  const posts = await postRepository.findByTag(slug)
-  const popularTags = await tagRepository.getPopular(10)
+  return generatePageMetadata({
+    title: `${tag.name} 标签`,
+    description: `查看所有标记为 "${tag.name}" 的文章`,
+    keywords: tag.name,
+    template: "tag",
+  });
+}
+
+export default async function TagPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  await db.initialize();
+  const { slug } = await params;
+
+  const settings = await getSettings();
+  const dict = await getDictionary(settings.language);
+
+  const tag = await tagRepository.findBySlug(slug);
+  if (!tag) {
+    notFound();
+  }
+
+  const posts = await postRepository.findByTag(slug);
+  const popularTags = await tagRepository.getPopular(10);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -43,7 +72,10 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
               {tag.name}
             </h1>
             <p className="text-lg text-muted-foreground">
-              {dict.tags.postCount.replace('{count}', (tag.count || 0).toString())}
+              {dict.tags.postCount.replace(
+                "{count}",
+                (tag.count || 0).toString(),
+              )}
             </p>
           </div>
         </section>
@@ -100,7 +132,9 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="border border-border rounded-lg p-4 space-y-4 sticky top-4">
-                <h3 className="text-sm font-semibold">{dict.sidebar.popularTags}</h3>
+                <h3 className="text-sm font-semibold">
+                  {dict.sidebar.popularTags}
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {popularTags
                     .filter((t: any) => t.slug !== slug)
@@ -121,7 +155,7 @@ export default async function TagPage({ params }: { params: Promise<{ slug: stri
         </div>
       </main>
 
-      <Footer dict={dict} authorName={settings.authorName || 'Admin'} />
+      <Footer dict={dict} authorName={settings.authorName || "Admin"} />
     </div>
-  )
+  );
 }

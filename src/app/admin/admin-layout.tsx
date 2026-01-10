@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   FileText,
@@ -21,121 +21,123 @@ import {
   Monitor,
   ChevronDown,
   MessageSquare,
-} from 'lucide-react'
-import { signOut, useSession } from 'next-auth/react'
-import { useTheme } from 'next-themes'
-import type { Dictionary } from '@/lib/i18n'
+} from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import { useTheme } from "next-themes";
+import type { Dictionary } from "@/lib/i18n";
 
-type ThemeMode = 'light' | 'dark' | 'system'
+type ThemeMode = "light" | "dark" | "system";
 
 const themeLabels: Record<ThemeMode, string> = {
-  light: 'Light',
-  dark: 'Dark',
-  system: 'System',
-}
+  light: "Light",
+  dark: "Dark",
+  system: "System",
+};
 
 const themeIcons: Record<ThemeMode, React.ReactNode> = {
   light: <Sun className="w-5 h-5" />,
   dark: <Moon className="w-5 h-5" />,
   system: <Monitor className="w-5 h-5" />,
-}
+};
 
 interface AdminLayoutProps {
-  children: React.ReactNode
-  dict: Dictionary
+  children: React.ReactNode;
+  dict: Dictionary;
+  siteName?: string;
 }
 
 export default function AdminLayout({
   children,
-  dict
+  dict,
+  siteName,
 }: AdminLayoutProps) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const pathname = usePathname()
-  const router = useRouter()
-  const { data: session } = useSession()
-  const { theme, setTheme } = useTheme()
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const { data: session } = useSession();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  const user = session?.user
+  const user = session?.user;
 
-  const currentTheme: ThemeMode = (theme as ThemeMode) || 'system'
+  const currentTheme: ThemeMode = (theme as ThemeMode) || "system";
 
   const selectTheme = (newTheme: ThemeMode) => {
-    setTheme(newTheme)
-    setThemeMenuOpen(false)
-  }
+    setTheme(newTheme);
+    setThemeMenuOpen(false);
+  };
 
   const handleLogout = async () => {
-    await signOut({ redirect: false })
-    router.push('/login')
-    router.refresh()
-  }
+    await signOut({ redirect: false });
+    router.push("/login");
+    router.refresh();
+  };
 
   const menuItems = [
     {
       title: dict.admin.dashboard,
       icon: LayoutDashboard,
-      href: '/admin',
+      href: "/admin",
     },
     {
       title: dict.admin.posts,
       icon: FileText,
-      href: '/admin/posts',
+      href: "/admin/posts",
     },
     {
-      title: dict.admin.pages?.title || 'Pages',
+      title: dict.admin.pages?.title || "Pages",
       icon: FileText,
-      href: '/admin/pages',
+      href: "/admin/pages",
     },
     {
       title: dict.admin.comments.title,
       icon: MessageSquare,
-      href: '/admin/comments',
+      href: "/admin/comments",
     },
     {
       title: dict.admin.tags.title,
       icon: Tag,
-      href: '/admin/tags',
+      href: "/admin/tags",
     },
     {
       title: dict.admin.categories.title,
       icon: FolderKanban,
-      href: '/admin/categories',
+      href: "/admin/categories",
     },
-        {
-          title: dict.admin.themes.title,
-          icon: Palette,
-          href: '/admin/themes',
-        },
-        {
-          title: dict.admin.menus || 'Menus',
-          icon: Menu,
-          href: '/admin/menus',
-        },
-        {
-          title: dict.admin.settings,
-     // Still a string in dictionary? No, settings was also updated but not admin.settings. Let me check.
+    {
+      title: dict.admin.themes.title,
+      icon: Palette,
+      href: "/admin/themes",
+    },
+    {
+      title: dict.admin.menus || "Menus",
+      icon: Menu,
+      href: "/admin/menus",
+    },
+    {
+      title: dict.admin.settings,
+      // Still a string in dictionary? No, settings was also updated but not admin.settings. Let me check.
       // Wait, checking zh-CN.json:
       // "admin": { "settings": "设置" } -> This is correct.
       // "settings": { "title": "网站设置" } -> This is the settings page title.
       // So admin.settings is a string.
       icon: Settings,
-      href: '/admin/settings',
+      href: "/admin/settings",
     },
-  ]
+  ];
 
   // Avoid hydration mismatch
   const renderThemeIcon = (mode: ThemeMode) => {
     if (!mounted) {
-      return <Sun className="w-5 h-5" />
+      return <Sun className="w-5 h-5" />;
     }
-    return themeIcons[mode]
-  }
+    return themeIcons[mode];
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -143,13 +145,17 @@ export default function AdminLayout({
       <div className="lg:hidden border-b border-border bg-card">
         <div className="flex h-16 items-center justify-between px-4">
           <Link href="/admin" className="text-xl font-bold">
-            VeloCMS Admin
+            {siteName || "VeloCMS"} Admin
           </Link>
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="p-2 hover:bg-accent rounded-lg"
           >
-            {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isSidebarOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>
@@ -158,13 +164,13 @@ export default function AdminLayout({
         {/* Sidebar */}
         <aside
           className={`fixed inset-y-0 left-0 z-50 w-64 border-r border-border bg-card transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${
-            isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           {/* Logo */}
           <div className="hidden lg:flex h-16 items-center justify-between px-6 border-b border-border">
             <Link href="/admin" className="text-lg font-bold">
-              VeloCMS Admin
+              {siteName || "VeloCMS"} Admin
             </Link>
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -177,21 +183,21 @@ export default function AdminLayout({
           {/* Menu */}
           <nav className="p-3 space-y-1">
             {menuItems.map((item) => {
-              const isActive = pathname === item.href
+              const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={`flex items-center gap-3 px-3 py-2 rounded-md transition text-sm ${
                     isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-accent'
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-accent"
                   }`}
                 >
                   <item.icon className="w-4 h-4" />
                   <span>{item.title}</span>
                 </Link>
-              )
+              );
             })}
           </nav>
 
@@ -199,12 +205,18 @@ export default function AdminLayout({
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm">
-                {user?.name ? user.name.charAt(0).toUpperCase() : <User className="w-4 h-4" />}
+                {user?.name ? (
+                  user.name.charAt(0).toUpperCase()
+                ) : (
+                  <User className="w-4 h-4" />
+                )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-medium truncate text-sm">{user?.name || 'Admin'}</div>
+                <div className="font-medium truncate text-sm">
+                  {user?.name || "Admin"}
+                </div>
                 <div className="text-xs text-muted-foreground truncate">
-                  {user?.email || 'admin@velocms.dev'}
+                  {user?.email || "admin@velocms.dev"}
                 </div>
               </div>
               <button
@@ -223,7 +235,8 @@ export default function AdminLayout({
           {/* Header */}
           <header className="hidden lg:flex h-14 items-center justify-between border-b border-border px-6">
             <h1 className="text-lg font-semibold">
-              {menuItems.find((item) => item.href === pathname)?.title || dict.admin.dashboard}
+              {menuItems.find((item) => item.href === pathname)?.title ||
+                dict.admin.dashboard}
             </h1>
             <div className="flex items-center gap-2">
               <Link
@@ -243,7 +256,9 @@ export default function AdminLayout({
                   title={dict.admin.theme}
                 >
                   {renderThemeIcon(currentTheme)}
-                  <ChevronDown className={`w-4 h-4 transition-transform ${themeMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${themeMenuOpen ? "rotate-180" : ""}`}
+                  />
                 </button>
 
                 {themeMenuOpen && (
@@ -258,7 +273,9 @@ export default function AdminLayout({
                           key={mode}
                           onClick={() => selectTheme(mode)}
                           className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition ${
-                            currentTheme === mode ? 'text-primary font-medium' : ''
+                            currentTheme === mode
+                              ? "text-primary font-medium"
+                              : ""
                           }`}
                         >
                           {renderThemeIcon(mode)}
@@ -292,5 +309,5 @@ export default function AdminLayout({
         />
       )}
     </div>
-  )
+  );
 }

@@ -1,30 +1,40 @@
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
-import PostCard from '@/components/post-card'
-import Sidebar from '@/components/sidebar'
-import { getSettings, getDictionary } from '@/lib/i18n'
-
-import { postRepository, tagRepository } from '@/db/repositories'
-import { db } from '@/db/client'
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import PostCard from "@/components/post-card";
+import Sidebar from "@/components/sidebar";
+import type { Metadata } from "next";
+import { getSettings, getDictionary } from "@/lib/i18n";
+import { postRepository, tagRepository } from "@/db/repositories";
+import { db } from "@/db/client";
+import { generatePageMetadata } from "@/lib/seo";
 
 // Fetch posts
 async function getPosts() {
-  await db.initialize()
-  const posts = await postRepository.findAll({ status: 'published' })
-  const recentPosts = await postRepository.getRecent(5)
-  const popularTags = await tagRepository.getPopular(10)
+  await db.initialize();
+  const posts = await postRepository.findAll({ status: "published" });
+  const recentPosts = await postRepository.getRecent(5);
+  const popularTags = await tagRepository.getPopular(10);
 
   return {
     posts: posts || [],
     recentPosts: recentPosts || [],
     popularTags: popularTags || [],
-  }
+  };
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const dict = await getDictionary("zh-CN");
+  return generatePageMetadata({
+    title: dict.posts.title,
+    description: dict.posts.count.replace("{count}", "0"),
+    template: "default",
+  });
 }
 
 export default async function PostsPage() {
-  const { posts, recentPosts, popularTags } = await getPosts()
-  const settings = await getSettings()
-  const dict = await getDictionary(settings.language)
+  const { posts, recentPosts, popularTags } = await getPosts();
+  const settings = await getSettings();
+  const dict = await getDictionary(settings.language);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -36,7 +46,7 @@ export default async function PostsPage() {
           <div className="container mx-auto px-4 py-12">
             <h1 className="text-4xl font-bold mb-4">{dict.posts.title}</h1>
             <p className="text-lg text-muted-foreground">
-              {dict.posts.count.replace('{count}', posts.length.toString())}
+              {dict.posts.count.replace("{count}", posts.length.toString())}
             </p>
           </div>
         </section>
@@ -102,7 +112,7 @@ export default async function PostsPage() {
         </div>
       </main>
 
-      <Footer dict={dict} authorName={settings.authorName || 'Admin'} />
+      <Footer dict={dict} authorName={settings.authorName || "Admin"} />
     </div>
-  )
+  );
 }

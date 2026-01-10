@@ -1,17 +1,28 @@
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
-import Sidebar from '@/components/sidebar'
-import Link from 'next/link'
-import { Tag as TagIcon } from 'lucide-react'
-import { getSettings, getDictionary } from '@/lib/i18n'
-import { tagRepository } from '@/db/repositories'
-import { db } from '@/db/client'
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import Sidebar from "@/components/sidebar";
+import Link from "next/link";
+import { Tag as TagIcon } from "lucide-react";
+import type { Metadata } from "next";
+import { getSettings, getDictionary } from "@/lib/i18n";
+import { tagRepository } from "@/db/repositories";
+import { db } from "@/db/client";
+import { generatePageMetadata } from "@/lib/seo";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const dict = await getDictionary("zh-CN");
+  return generatePageMetadata({
+    title: dict.tags.title,
+    description: dict.tags.count.replace("{count}", "0"),
+    template: "default",
+  });
+}
 
 export default async function TagsPage() {
-  await db.initialize()
-  const settings = await getSettings()
-  const dict = await getDictionary(settings.language)
-  const tags = await tagRepository.findAll()
+  await db.initialize();
+  const settings = await getSettings();
+  const dict = await getDictionary(settings.language);
+  const tags = await tagRepository.findAll();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -23,7 +34,10 @@ export default async function TagsPage() {
           <div className="container mx-auto px-4 py-12">
             <h1 className="text-4xl font-bold mb-4">{dict.tags.title}</h1>
             <p className="text-lg text-muted-foreground">
-              {dict.tags.count.replace('{count}', (tags?.length || 0).toString())}
+              {dict.tags.count.replace(
+                "{count}",
+                (tags?.length || 0).toString(),
+              )}
             </p>
           </div>
         </section>
@@ -33,7 +47,7 @@ export default async function TagsPage() {
           <div className="grid lg:grid-cols-4 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-3">
-              {(!tags || tags.length === 0) ? (
+              {!tags || tags.length === 0 ? (
                 <div className="text-center py-12 border border-border rounded-lg">
                   <p className="text-muted-foreground">{dict.tags.empty}</p>
                 </div>
@@ -52,7 +66,10 @@ export default async function TagsPage() {
                             {tag.name}
                           </h2>
                           <p className="text-sm text-muted-foreground">
-                            {dict.tags.postCount.replace('{count}', (tag.count || 0).toString())}
+                            {dict.tags.postCount.replace(
+                              "{count}",
+                              (tag.count || 0).toString(),
+                            )}
                           </p>
                         </div>
                         <div className="px-3 py-1 bg-muted rounded-full text-sm">
@@ -68,7 +85,9 @@ export default async function TagsPage() {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="border border-border rounded-lg p-4 space-y-4">
-                <h3 className="text-sm font-semibold">{dict.sidebar.popularTags}</h3>
+                <h3 className="text-sm font-semibold">
+                  {dict.sidebar.popularTags}
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {tags?.slice(0, 10).map((tag: any) => (
                     <Link
@@ -90,7 +109,7 @@ export default async function TagsPage() {
         </div>
       </main>
 
-      <Footer dict={dict} authorName={settings.authorName || 'Admin'} />
+      <Footer dict={dict} authorName={settings.authorName || "Admin"} />
     </div>
-  )
+  );
 }
