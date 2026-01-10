@@ -17,7 +17,7 @@ export default function PostsClient({ dict, initialPosts }: PostsClientProps) {
   const [selectedPosts, setSelectedPosts] = useState<number[]>([])
 
   // 过滤文章
-  const filteredPosts = posts.filter((post) => {
+  const filteredPosts = posts.filter((post: any) => {
     const matchesSearch =
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.slug.toLowerCase().includes(searchQuery.toLowerCase())
@@ -31,7 +31,7 @@ export default function PostsClient({ dict, initialPosts }: PostsClientProps) {
     if (selectedPosts.length === filteredPosts.length) {
       setSelectedPosts([])
     } else {
-      setSelectedPosts(filteredPosts.map((post) => post.id))
+      setSelectedPosts(filteredPosts.map((post: any) => post.id))
     }
   }
 
@@ -141,7 +141,7 @@ export default function PostsClient({ dict, initialPosts }: PostsClientProps) {
                 </td>
               </tr>
             ) : (
-              filteredPosts.map((post) => (
+              filteredPosts.map((post: any) => (
                 <tr key={post.id} className="hover:bg-accent/50">
                   <td className="px-4 py-2">
                     <input

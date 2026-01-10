@@ -39,7 +39,7 @@ export default async function TagsPage() {
                 </div>
               ) : (
                 <div className="grid md:grid-cols-2 gap-4">
-                  {tags.map((tag) => (
+                  {tags.map((tag: any) => (
                     <Link
                       key={tag.slug}
                       href={`/tags/${tag.slug}`}
@@ -70,7 +70,7 @@ export default async function TagsPage() {
               <div className="border border-border rounded-lg p-4 space-y-4">
                 <h3 className="text-sm font-semibold">{dict.sidebar.popularTags}</h3>
                 <div className="flex flex-wrap gap-2">
-                  {tags?.slice(0, 10).map((tag) => (
+                  {tags?.slice(0, 10).map((tag: any) => (
                     <Link
                       key={tag.slug}
                       href={`/tags/${tag.slug}`}
