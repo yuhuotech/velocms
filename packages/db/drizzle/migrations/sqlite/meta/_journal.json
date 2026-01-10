@@ -64,6 +64,13 @@
       "when": 1767970254938,
       "tag": "0008_bent_magus",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1768000000000,
+      "tag": "0009_fancy_storm",
+      "breakpoints": false
     }
   ]
 }
