@@ -43,6 +43,9 @@ if [ ! -z "$PID" ]; then
 fi
 
 # 启动开发服务器
+echo -e "${GREEN}[启动] 检查并执行数据库迁移...${NC}"
+npx tsx scripts/run-migrations.ts
+
 echo -e "${GREEN}[启动] 在端口 $PORT 启动开发服务器...${NC}"
 echo ""
 echo -e "${GREEN}========================================${NC}"

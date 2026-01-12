@@ -19,12 +19,14 @@ interface NavbarClientProps {
   dict: Dictionary;
   menus: any[];
   siteName?: string;
+  logoUrl?: string | null;
 }
 
 export default function NavbarClient({
   dict,
   menus,
   siteName,
+  logoUrl,
 }: NavbarClientProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
@@ -63,7 +65,7 @@ export default function NavbarClient({
           <Link href="/" className="flex items-center space-x-2">
             <div className="relative w-8 h-8">
               <Image
-                src="/logo.png"
+                src={logoUrl || "/logo.png"}
                 alt="Logo"
                 fill
                 className="object-contain"

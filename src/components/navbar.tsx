@@ -16,6 +16,11 @@ export default async function Navbar({ dict }: NavbarProps) {
   ]);
 
   return (
-    <NavbarClient dict={dict} menus={menus} siteName={settings.siteName} />
+    <NavbarClient
+      dict={dict}
+      menus={menus}
+      siteName={settings.siteName}
+      logoUrl={settings.logoUrl}
+    />
   );
 }

@@ -30,6 +30,7 @@ export const posts = mysqlTable("posts", {
   userId: int("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  categoryId: int("category_id"),
   title: varchar("title", { length: 255 }).notNull(),
   slug: varchar("slug", { length: 255 }).notNull().unique(),
   content: text("content").notNull(),
@@ -77,6 +78,15 @@ export const postTags = mysqlTable("post_tags", {
   tagId: int("tag_id")
     .notNull()
     .references(() => tags.id, { onDelete: "cascade" }),
+});
+
+export const categories = mysqlTable("categories", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull().unique(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  description: text("description"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow().onUpdateNow(),
 });
 
 export const themes = mysqlTable("themes", {
@@ -211,6 +221,7 @@ export const settings = mysqlTable("settings", {
   siteDescription: text("site_description"),
   siteUrl: varchar("site_url", { length: 255 }),
   language: varchar("language", { length: 20 }).default("zh-CN"),
+  logoUrl: text("logo_url"),
 
   // Author Info
   authorName: varchar("author_name", { length: 255 }),

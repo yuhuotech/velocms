@@ -29,6 +29,7 @@ export const posts = pgTable("posts", {
   userId: integer("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  categoryId: integer("category_id"),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
   content: text("content").notNull(),
@@ -76,6 +77,15 @@ export const postTags = pgTable("post_tags", {
   tagId: integer("tag_id")
     .notNull()
     .references(() => tags.id, { onDelete: "cascade" }),
+});
+
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
+  description: text("description"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const themes = pgTable("themes", {
@@ -210,6 +220,7 @@ export const settings = pgTable("settings", {
   siteDescription: text("site_description"),
   siteUrl: text("site_url"),
   language: text("language").default("zh-CN"),
+  logoUrl: text("logo_url"),
 
   // Author Info
   authorName: text("author_name"),

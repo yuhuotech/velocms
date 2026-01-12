@@ -1,6 +1,7 @@
 import { Suspense } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Lock, Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
 import LoginForm from "./login-form";
 import { getSettings, getDictionary } from "@/lib/i18n";
 import type { Metadata } from "next";
@@ -27,7 +28,15 @@ export default async function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary text-primary-foreground mb-4">
-            <Lock className="w-8 h-8" />
+            <div className="relative w-10 h-10">
+              <Image
+                src={settings.logoUrl || "/logo.png"}
+                alt="Logo"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
           </div>
           <h1 className="text-2xl font-bold">
             {settings.siteName || "VeloCMS"}

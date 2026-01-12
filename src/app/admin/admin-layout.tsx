@@ -53,6 +53,7 @@ export default function AdminLayout({
 }: AdminLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [createMenuOpen, setCreateMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -292,9 +293,53 @@ export default function AdminLayout({
                 )}
               </div>
 
-              <button className="p-2 hover:bg-accent rounded-lg text-muted-foreground transition">
-                <Plus className="w-5 h-5" />
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setCreateMenuOpen(!createMenuOpen)}
+                  className="flex items-center gap-1 p-2 hover:bg-accent rounded-lg text-muted-foreground transition"
+                  title="创建内容"
+                >
+                  <Plus className="w-5 h-5" />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${createMenuOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {createMenuOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setCreateMenuOpen(false)}
+                    />
+                    <div className="absolute right-0 mt-1 w-40 bg-background border border-border rounded-lg shadow-lg z-50 py-1">
+                      <Link
+                        href="/admin/posts/new"
+                        className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition"
+                        onClick={() => setCreateMenuOpen(false)}
+                      >
+                        <FileText className="w-4 h-4" />
+                        <span>新建文章</span>
+                      </Link>
+                      <Link
+                        href="/admin/pages/new"
+                        className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition"
+                        onClick={() => setCreateMenuOpen(false)}
+                      >
+                        <FileText className="w-4 h-4" />
+                        <span>新建页面</span>
+                      </Link>
+                      <Link
+                        href="/admin/categories/new"
+                        className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition"
+                        onClick={() => setCreateMenuOpen(false)}
+                      >
+                        <FolderKanban className="w-4 h-4" />
+                        <span>新建分类</span>
+                      </Link>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </header>
 

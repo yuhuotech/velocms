@@ -1,7 +1,11 @@
-export { commentRepository, type CommentWithReplies } from './comment.repository'
-export { captchaRepository } from './captcha.repository'
-export { fileRepository } from './file.repository'
-export { postRepository } from './post.repository'
-export { tagRepository } from './tag.repository'
-export { menuRepository } from './menu.repository'
-export * from './page.repository'
+export {
+  commentRepository,
+  type CommentWithReplies,
+} from "./comment.repository";
+export { captchaRepository } from "./captcha.repository";
+export { fileRepository } from "./file.repository";
+export { postRepository } from "./post.repository";
+export { tagRepository } from "./tag.repository";
+export { categoryRepository } from "./category.repository";
+export { menuRepository } from "./menu.repository";
+export * from "./page.repository";
