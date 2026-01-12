@@ -27,14 +27,14 @@
       "idx": 3,
       "version": "7",
       "when": 1768194000000,
-      "tag": "0010_logo_url",
+      "tag": "0003_logo_url_and_menu_sort",
       "breakpoints": true
     },
     {
       "idx": 4,
       "version": "7",
       "when": 1768194100000,
-      "tag": "0003_add_categories",
+      "tag": "0004_add_categories",
       "breakpoints": true
     }
   ]
